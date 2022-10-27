@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="#000000"
     android:layout_height="match_parent"
-    tools:context=".TelaHome">
+    tools:context=".ui.TelaHome">
 
     <include
         layout="@layout/toolbar">
@@ -13,7 +13,8 @@
     </include>
 
     <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:id="@+id/rvMoedasTelaHome"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="88dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
