@@ -3,13 +3,11 @@ package com.br.brqinvestimentos.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -29,16 +27,13 @@ class TelaHome : AppCompatActivity() {
     private val toolbarTitle: TextView? = null
 
     val moedaAdapter = MoedaAdapter {
-        Toast.makeText(this, "${it.toString()}", Toast.LENGTH_LONG).show()
-    }
 
-//    private val repositorioAdapter = RepositorioAdapter { repo ->
-//        Intent(this, IssuesActivity::class.java).apply {
-//            putExtra("repo_p", repo)
-//            putExtra("owner_p", "")
-//            startActivity(this)
-//        }
-//    }
+        Intent(this, TelaCambio::class.java).apply {
+            putExtra("moeda", it)
+            startActivity(this)
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +62,7 @@ class TelaHome : AppCompatActivity() {
 
 
     private fun setIsHeading(textView: TextView) {
-        //alterar eventos de acessibilidade
-        //uso para texto como titulo:
+
         ViewCompat.setAccessibilityDelegate(textView, object : AccessibilityDelegateCompat() {
             override fun onInitializeAccessibilityNodeInfo(
                 host: View,
@@ -91,7 +85,7 @@ class TelaHome : AppCompatActivity() {
         }
     }
 
-    private fun configuraRecyclerView(){
+    private fun configuraRecyclerView() {
         rvCurrencies = findViewById(R.id.rvMoedasTelaHome)
         rvCurrencies.layoutManager = LinearLayoutManager(this)
         rvCurrencies.adapter = moedaAdapter

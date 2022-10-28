@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.model.DataCurrencies
 import com.br.brqinvestimentos.model.MoedaModel
+import com.br.brqinvestimentos.utils.FuncoesUtils
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
@@ -20,9 +21,11 @@ class MoedaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun vincula(moeda: MoedaModel) {
         nomeMoeda.text = moeda.nome
-        var variacao = "0.0"
-        indicaCorDaVariacao(moeda, variacao)
-        variacaoMoeda.text = moeda.variacao?.setScale(2, RoundingMode.UP).toString() + "%"
+//        var variacao = "0.0"
+//        indicaCorDaVariacao(moeda, variacao)
+        FuncoesUtils.trocaCorVariacaoMoeda(variacaoMoeda, moeda)
+        FuncoesUtils.acertaCasasDecimaisVariacao(moeda, variacaoMoeda)
+//        variacaoMoeda.text = moeda.variacao?.setScale(2, RoundingMode.UP).toString() + "%"
 
     }
 
