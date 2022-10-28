@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -13,40 +12,43 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.br.brqinvestimentos.R
-import com.br.brqinvestimentos.adapter.MoedaAdapter
+import com.br.brqinvestimentos.adapter.ListaMoedasAdapter
+import com.br.brqinvestimentos.databinding.ActivityTelaHomeBinding
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
 class TelaHome : AppCompatActivity() {
 
     lateinit var viewModel: MoedaViewModel
-    lateinit var rvCurrencies: RecyclerView
-    private lateinit var linear: LinearLayout
+
+    //    lateinit var rvCurrencies: RecyclerView
     private var toolbar: Toolbar? = null
-    private val toolbarTitle: TextView? = null
 
-    val moedaAdapter = MoedaAdapter {
 
-        Intent(this, TelaCambio::class.java).apply {
-            putExtra("moeda", it)
-            startActivity(this)
-        }
-
+    private val binding by lazy {
+        ActivityTelaHomeBinding.inflate(layoutInflater)
     }
+    private val adapter by lazy {
+        ListaMoedasAdapter()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tela_home)
-        viewModel = ViewModelProvider(this)[MoedaViewModel::class.java]
+        setContentView(binding.root)
         configuraRecyclerView()
+        viewModel = ViewModelProvider(this)[MoedaViewModel::class.java]
+
         configuraToolbar()
 
+
         viewModel.listaDeMoedas.observe(this) {
-            moedaAdapter.atualiza(it)
+            adapter.atualiza(it)
         }
 
         viewModel.atualizaMoedas()
+
+
 
         configActionBar()
 
@@ -86,9 +88,14 @@ class TelaHome : AppCompatActivity() {
     }
 
     private fun configuraRecyclerView() {
-        rvCurrencies = findViewById(R.id.rvMoedasTelaHome)
-        rvCurrencies.layoutManager = LinearLayoutManager(this)
-        rvCurrencies.adapter = moedaAdapter
+        binding.rvMoedasTelaHome.adapter = adapter
+        binding.rvMoedasTelaHome.layoutManager = LinearLayoutManager(this)
+        adapter.quandoClicaNoItem = { moeda ->
+            Intent(this, TelaCambio::class.java).apply {
+                putExtra("moeda", moeda)
+                startActivity(this)
+            }
+        }
     }
 
 }
