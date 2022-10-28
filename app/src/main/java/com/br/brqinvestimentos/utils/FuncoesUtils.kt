@@ -12,16 +12,16 @@ class FuncoesUtils {
         fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
             val variacao = "0.0"
             if (moeda.variacao!! < variacao.toBigDecimal() && moeda.variacao != null) {
-                txtVariacao.setTextColor(Color.RED)
+                txtVariacao.setTextColor(Color.parseColor("#D0021B"))
             } else if (moeda.variacao!! == variacao.toBigDecimal() && moeda.variacao != null) {
-                txtVariacao.setTextColor(Color.WHITE)
+                txtVariacao.setTextColor(Color.parseColor("#FFFFFF"))
             } else {
-                txtVariacao.setTextColor(Color.GREEN)
+                txtVariacao.setTextColor(Color.parseColor("#7ED321"))
             }
         }
 
-        fun acertaCasasDecimaisVariacao(moeda: MoedaModel, txtVariacao: TextView){
-              txtVariacao.text = moeda.variacao?.setScale(2, RoundingMode.UP).toString() + "%"
+        fun acertaCasasDecimaisVariacao(moeda: MoedaModel, txtVariacao: TextView) {
+            txtVariacao.text = moeda.variacao?.setScale(2, RoundingMode.UP).toString() + "%"
 
         }
     }

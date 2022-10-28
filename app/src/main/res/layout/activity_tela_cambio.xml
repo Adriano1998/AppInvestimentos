@@ -3,12 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#000000"
     android:layout_height="match_parent"
     tools:context=".ui.TelaCambio">
 
+    <LinearLayout
+        android:id="@+id/ll_cardMoeda"
+        android:layout_width="327dp"
+        android:layout_height="171dp"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/retangulo"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
     <TextView
-        android:id="@+id/txt1"
+        android:id="@+id/txtNomeMoedaCambio"
+        android:textSize="22sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="22dp"
+        android:textStyle="bold"
         android:layout_width="70dp"
+        android:textColor="#FFFFFF"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,10 +36,13 @@
         ></TextView>
 
     <TextView
-        android:id="@+id/txt2"
+        android:id="@+id/txtVariacaoMoedaCambio"
         android:layout_width="70dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:layout_marginStart="22dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txt1"
+        app:layout_constraintTop_toBottomOf="@id/txtNomeMoedaCambio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,10 +50,11 @@
         ></TextView>
 
     <TextView
-        android:id="@+id/txt3"
+        android:id="@+id/txtCompraMoedaCambio"
         android:layout_width="70dp"
+        android:textColor="#FFFFFF"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txt2"
+        app:layout_constraintTop_toBottomOf="@id/txtVariacaoMoedaCambio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,14 +62,16 @@
         ></TextView>
 
     <TextView
-        android:id="@+id/txt4"
+        android:id="@+id/txtVendaMoedaCambio"
         android:layout_width="70dp"
+        android:textColor="#FFFFFF"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txt3"
+        app:layout_constraintTop_toBottomOf="@id/txtCompraMoedaCambio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
 
         ></TextView>
-
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+

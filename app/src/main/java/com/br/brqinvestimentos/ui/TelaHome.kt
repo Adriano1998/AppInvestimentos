@@ -15,19 +15,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.adapter.ListaMoedasAdapter
 import com.br.brqinvestimentos.databinding.ActivityTelaHomeBinding
+import com.br.brqinvestimentos.databinding.ToolbarBinding
+import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
 class TelaHome : AppCompatActivity() {
 
     lateinit var viewModel: MoedaViewModel
 
-    //    lateinit var rvCurrencies: RecyclerView
-    private var toolbar: Toolbar? = null
-
-
     private val binding by lazy {
         ActivityTelaHomeBinding.inflate(layoutInflater)
     }
+
+    private val bindingToolbar by lazy {
+        ToolbarBinding.inflate(layoutInflater)
+    }
+
     private val adapter by lazy {
         ListaMoedasAdapter()
     }
@@ -41,25 +44,21 @@ class TelaHome : AppCompatActivity() {
 
         configuraToolbar()
 
-
         viewModel.listaDeMoedas.observe(this) {
             adapter.atualiza(it)
         }
 
         viewModel.atualizaMoedas()
 
-
-
         configActionBar()
 
-        setIsHeading(findViewById(R.id.toolbar_title))
-
+        setIsHeading(bindingToolbar.toolbarTitle)
 
     }
 
     private fun configuraToolbar() {
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+
+        setSupportActionBar(bindingToolbar.toolbar)
     }
 
 
@@ -91,10 +90,14 @@ class TelaHome : AppCompatActivity() {
         binding.rvMoedasTelaHome.adapter = adapter
         binding.rvMoedasTelaHome.layoutManager = LinearLayoutManager(this)
         adapter.quandoClicaNoItem = { moeda ->
-            Intent(this, TelaCambio::class.java).apply {
-                putExtra("moeda", moeda)
-                startActivity(this)
-            }
+            vaiParaTelaCambio(moeda)
+        }
+    }
+
+    private fun vaiParaTelaCambio(moeda: MoedaModel) {
+        Intent(this, TelaCambio::class.java).apply {
+            putExtra("moeda", moeda)
+            startActivity(this)
         }
     }
 
