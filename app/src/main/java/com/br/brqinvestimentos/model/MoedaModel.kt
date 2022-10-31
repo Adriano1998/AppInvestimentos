@@ -12,7 +12,8 @@ data class MoedaModel(
     @SerializedName("buy")
     val valorCompra: Double? = null,
     @SerializedName("sell")
-    val valorVenda: Double? = null
+    val valorVenda: Double? = null,
+    var isoMoeda: String = ""
 
-) : Serializable {
-}
+) : Serializable
+

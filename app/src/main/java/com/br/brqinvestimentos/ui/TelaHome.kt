@@ -1,21 +1,12 @@
 package com.br.brqinvestimentos.ui
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.AccessibilityDelegateCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.adapter.ListaMoedasAdapter
 import com.br.brqinvestimentos.databinding.ActivityTelaHomeBinding
-import com.br.brqinvestimentos.databinding.ToolbarBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
@@ -25,10 +16,6 @@ class TelaHome : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityTelaHomeBinding.inflate(layoutInflater)
-    }
-
-    private val bindingToolbar by lazy {
-        ToolbarBinding.inflate(layoutInflater)
     }
 
     private val adapter by lazy {
@@ -41,49 +28,12 @@ class TelaHome : AppCompatActivity() {
         setContentView(binding.root)
         configuraRecyclerView()
         viewModel = ViewModelProvider(this)[MoedaViewModel::class.java]
-
-        configuraToolbar()
-
         viewModel.listaDeMoedas.observe(this) {
             adapter.atualiza(it)
         }
-
         viewModel.atualizaMoedas()
 
-        configActionBar()
 
-        setIsHeading(bindingToolbar.toolbarTitle)
-
-    }
-
-    private fun configuraToolbar() {
-
-        setSupportActionBar(bindingToolbar.toolbar)
-    }
-
-
-    private fun setIsHeading(textView: TextView) {
-
-        ViewCompat.setAccessibilityDelegate(textView, object : AccessibilityDelegateCompat() {
-            override fun onInitializeAccessibilityNodeInfo(
-                host: View,
-                info: AccessibilityNodeInfoCompat
-            ) {
-                super.onInitializeAccessibilityNodeInfo(host, info)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    host.isAccessibilityHeading = true
-                } else {
-                    info.isHeading = true
-                }
-            }
-        })
-    }
-
-    private fun configActionBar() {
-        supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
-            it.setDisplayHomeAsUpEnabled(true)
-        }
     }
 
     private fun configuraRecyclerView() {

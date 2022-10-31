@@ -31,9 +31,9 @@ class ListaMoedasAdapter(
         }
 
         fun vincula(moeda: MoedaModel) {
-//
+
             this.moeda = moeda
-            binding.txtNomeMoeda.text = moeda.nome
+            binding.txtNomeMoeda.text = moeda.isoMoeda
             binding.txtVariacaoMoeda.text = moeda.variacao.toString()
             FuncoesUtils.trocaCorVariacaoMoeda(binding.txtVariacaoMoeda, moeda)
             FuncoesUtils.acertaCasasDecimaisVariacao(moeda, binding.txtVariacaoMoeda)
@@ -54,7 +54,13 @@ class ListaMoedasAdapter(
         holder: ViewHolder,
         position: Int
     ) {
-        moedas[position]?.let { holder.vincula(it) }
+        moedas[position]?.let {
+
+            holder.vincula(it)
+//            holder.itemView.contentDescription = "Moeda ${position}:" +
+//                    "${it.nome}, ${it.variacao} "
+        }
+
     }
 
     override fun getItemCount(): Int = moedas.size

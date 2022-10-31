@@ -9,6 +9,7 @@ class RetrofitHelper {
 
     private val URL_BASE = "https://api.hgbrasil.com/"
 
+
     fun initApiFinancas(): FinancasServices {
 
         val interceptor = HttpLoggingInterceptor().apply {

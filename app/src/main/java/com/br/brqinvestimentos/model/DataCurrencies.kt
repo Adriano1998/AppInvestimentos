@@ -20,5 +20,14 @@ data class ResultDataCurrencies(
     @SerializedName("ARS")
     var ARS: MoedaModel? = null,
     @SerializedName("CAD")
-    var CAD: MoedaModel? = null
+    var CAD: MoedaModel? = null,
+    @SerializedName("AUD")
+    var AUD: MoedaModel? = null,
+    @SerializedName("JPY")
+    var JPY: MoedaModel? = null,
+    @SerializedName("CNY")
+    var CNY: MoedaModel? = null,
+    @SerializedName("BTC")
+    var BTC: MoedaModel? = null
 )
+

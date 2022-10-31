@@ -5,24 +5,43 @@ import android.widget.TextView
 import com.br.brqinvestimentos.model.MoedaModel
 import java.math.RoundingMode
 
-class FuncoesUtils {
+object FuncoesUtils {
 
-    companion object Factory {
 
-        fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
-            val variacao = "0.0"
-            if (moeda.variacao!! < variacao.toBigDecimal() && moeda.variacao != null) {
-                txtVariacao.setTextColor(Color.parseColor("#D0021B"))
-            } else if (moeda.variacao!! == variacao.toBigDecimal() && moeda.variacao != null) {
-                txtVariacao.setTextColor(Color.parseColor("#FFFFFF"))
-            } else {
-                txtVariacao.setTextColor(Color.parseColor("#7ED321"))
-            }
+    fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
+        val variacao = "0.0"
+        if (moeda.variacao!! < variacao.toBigDecimal() && moeda.variacao != null) {
+            txtVariacao.setTextColor(Color.parseColor("#D0021B"))
+        } else if (moeda.variacao!! == variacao.toBigDecimal() && moeda.variacao != null) {
+            txtVariacao.setTextColor(Color.parseColor("#FFFFFF"))
+        } else {
+            txtVariacao.setTextColor(Color.parseColor("#7ED321"))
         }
+    }
 
-        fun acertaCasasDecimaisVariacao(moeda: MoedaModel, txtVariacao: TextView) {
-            txtVariacao.text = moeda.variacao?.setScale(2, RoundingMode.UP).toString() + "%"
+    fun acertaCasasDecimaisVariacao(moeda: MoedaModel, txtVariacao: TextView) {
+        txtVariacao.text = moeda.variacao?.setScale(2, RoundingMode.UP).toString() + "%"
 
+    }
+
+    fun mapeiaNome(moedas: List<MoedaModel?>): List<MoedaModel?> {
+        return moedas.map {
+            it?.apply {
+                it.isoMoeda =
+                    when (it.nome) {
+                        "Dollar" -> "USD"
+                        "Euro" -> "EUR"
+                        "Pound Sterling" -> "GBP"
+                        "Argentine Peso" -> "ARS"
+                        "Canadian Dollar" -> "CAD"
+                        "Australian Dollar" -> "AUD"
+                        "Japanese Yen" -> "JPY"
+                        "Renminbi" -> "CNY"
+                        "Bitcoin" -> "BTC"
+                        else -> ""
+                    }
+            }
         }
     }
 }
+
