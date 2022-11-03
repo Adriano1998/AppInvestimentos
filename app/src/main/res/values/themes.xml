@@ -15,6 +15,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AccentButton" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:colorAccent">#3C8DBC</item>
+        <item name="colorButtonNormal">#808080</item>
+    </style>
     
 
 </resources>

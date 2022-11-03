@@ -7,6 +7,8 @@ import java.math.RoundingMode
 
 object FuncoesUtils {
 
+    var quantidadeSaldo = 1000
+    var quantidadeEmCaixa = 7
 
     fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
         val variacao = "0.0"
@@ -43,5 +45,17 @@ object FuncoesUtils {
             }
         }
     }
+
+
+//    fun configuraDadosTelaCambioSaldo() : Int{
+//        var saldo = 1000
+//        return saldo
+//
+//    }
+//    fun configuraDadosTelaCambioCaixa(): Int{
+//        var caixa = 7
+//        return caixa
+//    }
+
 }
 

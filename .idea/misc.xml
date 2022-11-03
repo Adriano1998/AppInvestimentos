@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/retangulo.xml" value="0.1945" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/retangulobotao.xml" value="0.1495" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/retangulobotaoativado.xml" value="0.1" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/retangulobutton.xml" value="0.158" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/stylebutton.xml" value="0.158" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/txtvwestilo.xml" value="0.165" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_tela_cambio.xml" value="0.22" />
@@ -11,6 +15,7 @@
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/item_moedas.xml" value="0.21" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/textviewestilo.xml" value="0.1716485507246377" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbar.xml" value="0.1" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbar_cambio.xml" value="0.25" />
       </map>
     </option>
   </component>

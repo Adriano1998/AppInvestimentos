@@ -10,7 +10,7 @@ class RetrofitHelper {
     private val URL_BASE = "https://api.hgbrasil.com/"
 
 
-    fun initApiFinancas(): FinancasServices {
+    fun initApiFinancas(): FinancasApi {
 
         val interceptor = HttpLoggingInterceptor().apply {
             setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -24,7 +24,7 @@ class RetrofitHelper {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        return retrofit.create(FinancasServices::class.java)
+        return retrofit.create(FinancasApi::class.java)
     }
 }
 
