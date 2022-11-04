@@ -46,7 +46,7 @@ class TelaHome : AppCompatActivity() {
         viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
             MoedaViewModel::class.java
         )
-//        viewModel = ViewModelProvider(this)[MoedaViewModel::class.java]
+
         viewModel.listaDeMoedas.observe(this) {
             adapter.atualiza(it)
         }

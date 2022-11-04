@@ -1,22 +1,27 @@
 package com.br.brqinvestimentos.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.databinding.ActivityTelaCambioBinding
 import com.br.brqinvestimentos.model.MoedaModel
+import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.utils.FuncoesUtils
-import com.br.brqinvestimentos.utils.moedas.MoedasUtils
+import com.br.brqinvestimentos.viewModel.MainViewModelFactory
+import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
 class TelaCambio : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityTelaCambioBinding.inflate(layoutInflater)
     }
+
+    lateinit var viewModel: MoedaViewModel
 
 
     private var moeda: MoedaModel? = null
@@ -31,13 +36,13 @@ class TelaCambio : AppCompatActivity() {
         setContentView(binding.root)
         moeda = intent.getSerializableExtra("moeda") as? MoedaModel
 
+        viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
+            MoedaViewModel::class.java
+        )
+
         moeda?.let {
             vinculaCamposMoeda(it)
         }
-
-        binding.btnComprar.isEnabled = true
-
-        desabilitaOuHabilitaBotao()
 
         binding.btnVoltarTelaHome.setOnClickListener {
             finish()
@@ -45,13 +50,14 @@ class TelaCambio : AppCompatActivity() {
 
         sbSaldo?.let {
             it.append(binding.txtSaldoDisponivel.text)
+                .append(" ")
                 .append(FuncoesUtils.quantidadeSaldo)
                 .toString()
             binding.txtSaldoDisponivel.text = it
         }
 
         sbCaixa?.let {
-            it.append(FuncoesUtils.quantidadeEmCaixa)
+            it.append(moeda?.isoValor)
                 .append(" ")
                 .append(moeda?.nome)
                 .append(" ")
@@ -60,33 +66,64 @@ class TelaCambio : AppCompatActivity() {
             binding.txtEmCaixa.text = it
         }
 
+        viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
+
+        viewModel.desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
+
         binding.txtinpQuantidade.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                binding.txtinpQuantidade.text = s.toString()
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                if(moeda?.valorCompra)
+
             }
 
             override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isNotBlank() && moeda?.valorVenda != null) {
+                    var textoDigitado = s.toString().toInt()
+                    if (viewModel.validaQuantidadeComVenda(textoDigitado, moeda!!)) {
+                        viewModel.habilitaBotao(binding.btnVender, R.drawable.retangulobotaoativado)
+                        binding.btnVender.setOnClickListener{
+                            viewModel.calculaVenda(textoDigitado, moeda!!, FuncoesUtils).let {
+                                val intent = Intent(applicationContext, TelaHome::class.java)
+                                intent.putExtra("isoValor", it)
+                                startActivity(intent)
+                            }
+
+                        }
+                    } else {
+                        viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
+                    }
+                } else {
+                    viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
+                }
+
+                if (s.toString().isNotBlank() && moeda?.valorCompra!=null) {
+                    var caracteresDigitados = s.toString().toInt()
+                    if(viewModel.validaQuantidadeComCompra(caracteresDigitados, moeda!!  )){
+                        viewModel.habilitaBotao(binding.btnComprar, R.drawable.retangulobotaoativado)
+                        binding.btnComprar.setOnClickListener{
+                            viewModel.calculaCompra(caracteresDigitados, moeda!!, FuncoesUtils)
+                            finish()
+                        }
+                    }
+                    else{
+                        viewModel.desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
+                    }
+                }
+                else{
+                    viewModel.desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
+                }
 
 
             }
         }
         )
-        MoedasUtils.hashMoedas
     }
 
 
-    private fun desabilitaOuHabilitaBotao() {
-        if (!binding.btnComprar.isEnabled) {
-            binding.btnComprar.setBackgroundResource(R.drawable.retangulobotao)
-        } else {
-            binding.btnComprar.setBackgroundResource(R.drawable.retangulobotaoativado)
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private fun vinculaCamposMoeda(it: MoedaModel) {
@@ -96,14 +133,12 @@ class TelaCambio : AppCompatActivity() {
         FuncoesUtils.acertaCasasDecimaisVariacao(it, binding.txtVariacaoMoedaCambio)
 
         validaCamposCompraeVenda(it)
-
-
     }
 
     @SuppressLint("SetTextI18n")
     private fun validaCamposCompraeVenda(it: MoedaModel) {
         if (it.valorCompra == null) {
-            binding.txtCompraMoedaCambio.text = "Compra: R$ 0.0"
+            binding.txtCompraMoedaCambio.text = "Compra: R$ 0.00"
         } else {
             binding.txtCompraMoedaCambio.text = "Compra: R$ ${it.valorCompra} "
         }

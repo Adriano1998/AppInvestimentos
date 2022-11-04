@@ -55,10 +55,8 @@ class ListaMoedasAdapter(
         position: Int
     ) {
         moedas[position]?.let {
-
             holder.vincula(it)
-//            holder.itemView.contentDescription = "Moeda ${position}:" +
-//                    "${it.nome}, ${it.variacao} "
+
         }
 
     }

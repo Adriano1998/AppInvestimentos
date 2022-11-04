@@ -7,8 +7,9 @@ import java.math.RoundingMode
 
 object FuncoesUtils {
 
-    var quantidadeSaldo = 1000
-    var quantidadeEmCaixa = 7
+    var quantidadeSaldo = 1000.0
+
+
 
     fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
         val variacao = "0.0"
@@ -46,16 +47,27 @@ object FuncoesUtils {
         }
     }
 
+    fun mapeiaValoresMoedas(moedas: List<MoedaModel?>): List<MoedaModel?> {
+        return moedas.map {
+            it?.apply {
+                it.isoValor =
+                    when (it.nome) {
+                        "Dollar" -> 4
+                        "Euro" -> 7
+                        "Pound Sterling" -> 3
+                        "Argentine Peso" -> 2
+                        "Canadian Dollar" -> 8
+                        "Australian Dollar" -> 5
+                        "Japanese Yen" -> 1
+                        "Renminbi" -> 0
+                        "Bitcoin" -> 9
+                        else -> 0
+                    }
+            }
+        }
+    }
 
-//    fun configuraDadosTelaCambioSaldo() : Int{
-//        var saldo = 1000
-//        return saldo
-//
-//    }
-//    fun configuraDadosTelaCambioCaixa(): Int{
-//        var caixa = 7
-//        return caixa
-//    }
+
 
 }
 

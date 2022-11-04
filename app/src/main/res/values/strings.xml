@@ -2,7 +2,7 @@
     <string name="app_name">BRQ Investimentos</string>
     <string name="moedas">Moedas</string>
     <string name="cambio">Câmbio</string>
-    <string name="saldo_disponivel">Saldo disponível:</string>
+    <string name="saldo_disponivel">Saldo disponível: R$ </string>
     <string name="comprar">COMPRAR</string>
     <string name="vender">VENDER</string>
     <string name="quantidade">Quantidade</string>
