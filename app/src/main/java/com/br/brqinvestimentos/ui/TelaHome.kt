@@ -15,20 +15,12 @@ import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
 class TelaHome : AppCompatActivity() {
 
-    private val repository by lazy {
-        MoedaRepository()
-    }
 
-//    private val viewModel: MoedaViewModel by viewModels()
+    private var moeda: MoedaModel? = null
+    private var contador: Int = 0
 
 
     lateinit var viewModel: MoedaViewModel
-//    private var viewModel by lazy{
-//        MoedaViewModel(repository)
-//        ViewModelProvider(this)[MoedaViewModel::class.java]
-//    }
-
-//    lateinit var viewModel: MoedaViewModel(repository)
 
     private val binding by lazy {
         ActivityTelaHomeBinding.inflate(layoutInflater)
@@ -43,6 +35,9 @@ class TelaHome : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configuraRecyclerView()
+        moeda = intent.getSerializableExtra("moeda") as? MoedaModel
+
+
         viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
             MoedaViewModel::class.java
         )
@@ -51,7 +46,6 @@ class TelaHome : AppCompatActivity() {
             adapter.atualiza(it)
         }
         viewModel.atualizaMoedas()
-
 
 
     }

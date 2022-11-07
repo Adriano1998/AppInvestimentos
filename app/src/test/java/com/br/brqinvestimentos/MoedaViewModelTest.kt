@@ -28,7 +28,8 @@ class MoedaViewModelTest : BaseTest() {
                 variacao = BigDecimal.ZERO,
                 valorCompra = 1.0,
                 valorVenda = 2.50,
-                isoMoeda = "USD"
+                isoMoeda = "USD",
+                isoValor = 3
             )
         }
         val listaEsperada = listOf<MoedaModel?>( resultado.currencies.USD,

@@ -14,12 +14,14 @@ import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.utils.FuncoesUtils
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
+import java.math.RoundingMode
 
 class TelaCambio : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityTelaCambioBinding.inflate(layoutInflater)
     }
+
 
     lateinit var viewModel: MoedaViewModel
 
@@ -29,10 +31,27 @@ class TelaCambio : AppCompatActivity() {
     private val sbSaldo = StringBuilder()
     private val sbCaixa = StringBuilder()
 
+    override fun onResume() {
+        super.onResume()
+        binding.txtSaldoDisponivelVariavel.text = FuncoesUtils.quantidadeSaldo.toBigDecimal()
+            .setScale(2, RoundingMode.UP).toString()
+        moeda?.let {
+            viewModel.simulaValorParaSingleton(it)
+
+        }
+
+        binding.txtEmCaixa.text = moeda?.isoValor.toString() + " " + moeda?.nome + " " +  "em caixa"
+
+
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        if(savedInstanceState!=null){
+//            viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
+//            viewModel.desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
+//        }
         setContentView(binding.root)
         moeda = intent.getSerializableExtra("moeda") as? MoedaModel
 
@@ -42,29 +61,30 @@ class TelaCambio : AppCompatActivity() {
 
         moeda?.let {
             vinculaCamposMoeda(it)
+            viewModel.simulaValorParaSingleton(it)
         }
 
         binding.btnVoltarTelaHome.setOnClickListener {
             finish()
         }
 
-        sbSaldo?.let {
-            it.append(binding.txtSaldoDisponivel.text)
-                .append(" ")
-                .append(FuncoesUtils.quantidadeSaldo)
-                .toString()
-            binding.txtSaldoDisponivel.text = it
-        }
+//        sbSaldo?.let {
+//            it.append(binding.txtSaldoDisponivel.text)
+//                .append(" ")
+//                .append(FuncoesUtils.quantidadeSaldo.toBigDecimal().setScale(2, RoundingMode.UP))
+//                .toString()
+//            binding.txtSaldoDisponivel.text = it
+//        }
 
-        sbCaixa?.let {
-            it.append(moeda?.isoValor)
-                .append(" ")
-                .append(moeda?.nome)
-                .append(" ")
-            it.append(binding.txtEmCaixa.text)
-                .toString()
-            binding.txtEmCaixa.text = it
-        }
+//        sbCaixa?.let {
+//            it.append(moeda?.isoValor)
+//                .append(" ")
+//                .append(moeda?.nome)
+//                .append(" ")
+//            it.append(binding.txtEmCaixa.text)
+//                .toString()
+//            binding.txtEmCaixa.text = it
+//        }
 
         viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
 
@@ -85,10 +105,12 @@ class TelaCambio : AppCompatActivity() {
                     var textoDigitado = s.toString().toInt()
                     if (viewModel.validaQuantidadeComVenda(textoDigitado, moeda!!)) {
                         viewModel.habilitaBotao(binding.btnVender, R.drawable.retangulobotaoativado)
-                        binding.btnVender.setOnClickListener{
+                        binding.btnVender.setOnClickListener {
+                            binding.txtinpQuantidade.text?.clear()
                             viewModel.calculaVenda(textoDigitado, moeda!!, FuncoesUtils).let {
-                                val intent = Intent(applicationContext, TelaHome::class.java)
-                                intent.putExtra("isoValor", it)
+                                val intent = Intent(applicationContext, TelaCompraVenda::class.java)
+                                viewModel.simulaValorParaSingleton(moeda!!)
+                                intent.putExtra("moeda", moeda)
                                 startActivity(intent)
                             }
 
@@ -100,20 +122,25 @@ class TelaCambio : AppCompatActivity() {
                     viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
                 }
 
-                if (s.toString().isNotBlank() && moeda?.valorCompra!=null) {
+                if (s.toString().isNotBlank() && moeda?.valorCompra != null) {
                     var caracteresDigitados = s.toString().toInt()
-                    if(viewModel.validaQuantidadeComCompra(caracteresDigitados, moeda!!  )){
-                        viewModel.habilitaBotao(binding.btnComprar, R.drawable.retangulobotaoativado)
-                        binding.btnComprar.setOnClickListener{
+                    if (viewModel.validaQuantidadeComCompra(caracteresDigitados, moeda!!)) {
+                        viewModel.habilitaBotao(
+                            binding.btnComprar,
+                            R.drawable.retangulobotaoativado
+                        )
+                        binding.btnComprar.setOnClickListener {
+                            binding.txtinpQuantidade.text?.clear()
                             viewModel.calculaCompra(caracteresDigitados, moeda!!, FuncoesUtils)
-                            finish()
+                            val intent = Intent(applicationContext, TelaCompraVenda::class.java)
+                            viewModel.simulaValorParaSingleton(moeda!!)
+                            intent.putExtra("moeda", moeda)
+                            startActivity(intent)
                         }
-                    }
-                    else{
+                    } else {
                         viewModel.desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
                     }
-                }
-                else{
+                } else {
                     viewModel.desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
                 }
 
@@ -121,8 +148,22 @@ class TelaCambio : AppCompatActivity() {
             }
         }
         )
-    }
 
+        sbSaldo?.let {
+            it.append(binding.txtSaldoDisponivel.text)
+                .append(" ")
+
+            binding.txtSaldoDisponivel.text = it
+        }
+
+//        sbSaldoVariavel?.let {
+//            it.append(binding.txtSaldoDisponivelVariavel.text)
+//                .append(" ")
+//                .append(FuncoesUtils.quantidadeSaldo.toBigDecimal().setScale(2, RoundingMode.UP))
+//                .toString()
+//            binding.txtSaldoDisponivelVariavel.text = it
+//        }
+    }
 
 
     @SuppressLint("SetTextI18n")

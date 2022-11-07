@@ -1,6 +1,7 @@
 package com.br.brqinvestimentos.adapter
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +55,7 @@ class ListaMoedasAdapter(
         holder: ViewHolder,
         position: Int
     ) {
+
         moedas[position]?.let {
             holder.vincula(it)
 

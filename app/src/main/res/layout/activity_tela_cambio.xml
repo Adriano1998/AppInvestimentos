@@ -13,15 +13,14 @@
 
     <ImageButton
         android:id="@+id/btnVoltarTelaHome"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_arrow_back_ios_24"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
         android:background="#D1000000"
-        >
+        android:src="@drawable/ic_baseline_arrow_back_ios_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </ImageButton>
 
@@ -115,7 +114,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:text="@string/em_caixa"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@id/txtSaldoDisponivel"
@@ -137,13 +135,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtinpQuantidade"
-            android:inputType="number"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
-            android:maxLength="9"
             android:layout_height="match_parent"
             android:hint="@string/quantidade"
+            android:inputType="number"
+            android:maxLength="9"
             android:padding="8dp"
+            android:textColor="@color/white"
             android:textColorHint="#FFFFFF"
 
             >
@@ -181,6 +179,18 @@
         >
 
     </androidx.appcompat.widget.AppCompatButton>
+
+    <TextView
+        android:id="@+id/txtSaldoDisponivelVariavel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+
+
+        app:layout_constraintLeft_toRightOf="@+id/txtSaldoDisponivel"
+        app:layout_constraintTop_toBottomOf="@+id/ll_cardMoeda" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
