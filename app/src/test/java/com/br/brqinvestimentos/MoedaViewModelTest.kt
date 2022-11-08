@@ -4,9 +4,11 @@ import com.br.brqinvestimentos.model.DataCurrencies
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
-import io.mockk.*
+import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.math.BigDecimal
 
@@ -21,7 +23,7 @@ class MoedaViewModelTest : BaseTest() {
 
 
     @Test
-    fun deveRetornarMoedasDaApi1() {
+    fun quandoChamarApi_deveRetornarMoedasDaApi() {
         val resultado = DataCurrencies().apply {
             this.currencies.USD = MoedaModel(
                 nome = "Dollar",
@@ -32,7 +34,8 @@ class MoedaViewModelTest : BaseTest() {
                 isoValor = 3
             )
         }
-        val listaEsperada = listOf<MoedaModel?>( resultado.currencies.USD,
+        val listaEsperada = listOfNotNull(
+            resultado.currencies.USD,
             resultado.currencies.EUR,
             resultado.currencies.CAD,
             resultado.currencies.GBP,
@@ -40,7 +43,8 @@ class MoedaViewModelTest : BaseTest() {
             resultado.currencies.AUD,
             resultado.currencies.JPY,
             resultado.currencies.CNY,
-            resultado.currencies.BTC)
+            resultado.currencies.BTC
+        )
 
         coEvery { api.carregaMoedas() } returns resultado
 
@@ -50,6 +54,22 @@ class MoedaViewModelTest : BaseTest() {
 
 
     }
+
+    @Test
+    fun quandoChamarApi_deveRetornarErro() {
+
+        coEvery { api.carregaMoedas() } throws Exception("Algo inesperado aconteceu com a nossa requisição.")
+
+
+        viewModel.atualizaMoedas()
+        assertEquals(
+            "Algo inesperado aconteceu com a nossa requisição.",
+            viewModel.toastMessageObserver.value
+        )
+
+
+    }
+
 
 }
 

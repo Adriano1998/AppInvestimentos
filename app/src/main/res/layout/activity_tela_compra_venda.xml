@@ -4,57 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".ui.TelaCompraVenda">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <include layout="@layout/toolbarcompraevenda" android:id="@+id/toolbarcompravenda"> </include>
+
+   <TextView
+       android:id="@+id/textoCompraVenda"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       android:textSize="32dp"
+       android:textAlignment="center"
+       android:textColor="#7ED321"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"></TextView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnVaiParaHome"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginTop="125dp"
+        android:background="@drawable/retangulobotaoativado"
+        android:backgroundTint="#3C8DBC"
+        android:text="@string/home"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="20dp"
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="1.0">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="196dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+    </androidx.appcompat.widget.AppCompatButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

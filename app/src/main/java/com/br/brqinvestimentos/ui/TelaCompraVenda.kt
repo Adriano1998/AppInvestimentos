@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.br.brqinvestimentos.databinding.ActivityTelaCompraVendaBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
+import com.br.brqinvestimentos.utils.FuncoesUtils
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
+import java.math.RoundingMode
 
 class TelaCompraVenda : AppCompatActivity() {
 
@@ -17,29 +19,85 @@ class TelaCompraVenda : AppCompatActivity() {
     }
     private var moeda: MoedaModel? = null
     lateinit var viewModel: MoedaViewModel
+    private val sbTexto = StringBuilder()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        iniciaToolbar()
 
         moeda = intent.getSerializableExtra("moeda") as? MoedaModel
 
         viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
             MoedaViewModel::class.java
         )
-
-        moeda?.let {
-            binding.textView.text = it.nome.toString()
-            binding.textView2.text = it.isoValor.toString()
-            binding.textView3.text = it.isoMoeda
-//            viewModel.simulaValorParaSingleton(it)
+        binding.toolbarcompravenda.btnVoltarTelaCambio.setOnClickListener {
+            finish()
         }
-        binding.button.setOnClickListener {
+
+        binding.btnVaiParaHome.setOnClickListener {
             val intent = Intent(applicationContext, TelaHome::class.java)
             viewModel.simulaValorParaSingleton(moeda!!)
             intent.putExtra("moeda", moeda)
             startActivity(intent)
         }
+        val quantidade = intent.getIntExtra("quantidade", 0)
+
+        if (!FuncoesUtils.ehCompra) {
+            val contaVenda = quantidade * moeda?.valorVenda!!
+            sbTexto.let {
+                it.append("Parabéns!\n")
+                    .append("Você acabou de vender\n")
+                    .append(quantidade, " ")
+                    .append(moeda?.isoMoeda, " ")
+                    .append("-", " ")
+                    .append(moeda?.nome)
+                    .append(", \n")
+                    .append("totalizando\n")
+                    .append("R$ ")
+                    .append(contaVenda.toBigDecimal().setScale(2, RoundingMode.UP))
+
+                binding.textoCompraVenda.text = it
+            }
+        } else {
+            val contaCompra = quantidade * moeda?.valorCompra!!
+            sbTexto.let {
+                it.append("Parabéns!\n")
+                    .append("Você acabou de \n")
+                    .append("comprar ")
+                    .append(quantidade)
+                    .append(" ", moeda?.isoMoeda, " ")
+                    .append("-\n")
+                    .append(moeda?.nome)
+                    .append(", totalizando\n")
+                    .append("R$ ")
+                    .append(contaCompra.toBigDecimal().setScale(2, RoundingMode.UP))
+                binding.textoCompraVenda.text = it
+
+            }
+        }
+
+//        moeda?.let {
+//            binding.textView.text = it.nome.toString()
+//            binding.textView2.text = it.isoValor.toString()
+//            binding.textView3.text = it.isoMoeda
+////            viewModel.simulaValorParaSingleton(it)
+//        }
+//        binding.button.setOnClickListener {
+//            val intent = Intent(applicationContext, TelaHome::class.java)
+//            viewModel.simulaValorParaSingleton(moeda!!)
+//            intent.putExtra("moeda", moeda)
+//            startActivity(intent)
+//        }
+    }
+
+    private fun iniciaToolbar() {
+        setSupportActionBar(binding.toolbarcompravenda.toolbarCompraVenda)
+        supportActionBar?.let {
+            it.setDisplayShowTitleEnabled(false)
+
+        }
+
     }
 }

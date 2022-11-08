@@ -1,25 +1,24 @@
 package com.br.brqinvestimentos.utils
 
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.widget.TextView
 import com.br.brqinvestimentos.model.MoedaModel
-import com.br.brqinvestimentos.viewModel.MoedaViewModel
 import java.math.RoundingMode
 
 object FuncoesUtils {
 
     var quantidadeSaldo = 1000.0
-    var usd = 6
-    var eur = 1
-    var gbp = 0
+    var usd = 5
+    var eur = 3
+    var gbp = 4
     var ars = 3
     var cad = 2
     var aud = 0
     var jpy = 4
-    var cny = 5
+    var cny = 2
     var btc = 2
 
+    var ehCompra = false
 
 
     fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
@@ -57,32 +56,6 @@ object FuncoesUtils {
             }
         }
     }
-
-//    fun mapeiaValoresMoedas(moedas: List<MoedaModel?>): List<MoedaModel?> {
-//        return moedas.map {
-//            it?.apply {
-//                    it.isoValor =
-//                        when (it.nome) {
-//                            "Dollar" -> 4
-//                            "Euro" -> 7
-//                            "Pound Sterling" -> 3
-//                            "Argentine Peso" -> 2
-//                            "Canadian Dollar" -> 8
-//                            "Australian Dollar" -> 5
-//                            "Japanese Yen" -> 1
-//                            "Renminbi" -> 0
-//                            "Bitcoin" -> 9
-//                            else -> 0
-//                        }
-//
-//
-//            }
-//        }
-//    }
-
-//    fun inicializaShared(shared: SharedPreferences, moeda: MoedaModel){
-//        val shared =
-//    }
 
 
 }

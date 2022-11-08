@@ -20,14 +20,14 @@ import kotlinx.coroutines.launch
 class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() {
 
     val listaDeMoedas = MutableLiveData<List<MoedaModel?>>()
-
+    val toastMessageObserver = MutableLiveData<String>()
 
     fun atualizaMoedas() {
         launch {
             try {
                 val call = repository.carregaMoedas()
                 val listaMoedas = mapeiaNome(
-                    listOf(
+                    listOfNotNull(
                         call.currencies.USD,
                         call.currencies.EUR,
                         call.currencies.CAD,
@@ -41,6 +41,7 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
                 )
                 listaDeMoedas.postValue(listaMoedas)
             } catch (e: Exception) {
+                toastMessageObserver.postValue( "Algo inesperado aconteceu com a nossa requisição.")
 
             }
 
@@ -60,7 +61,7 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
         return false
     }
 
-    fun simulaValorParaSingleton(moeda: MoedaModel){
+    fun simulaValorParaSingleton(moeda: MoedaModel) {
         when {
             moeda.isoMoeda.equals("USD") -> moeda.isoValor = usd
             moeda.isoMoeda.equals("EUR") -> moeda.isoValor = eur
@@ -125,24 +126,10 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
 
     fun calculaVenda(quantidade: Int, moedaModel: MoedaModel, funcoesUtils: FuncoesUtils): Int {
         if (validaQuantidadeComVenda(quantidade, moedaModel)) {
-//            moedaModel.isoValor -= quantidade
-//            simulaValorParaSingleton(moedaModel)
             subtraiValorSimulado(moedaModel, quantidade)
             funcoesUtils.quantidadeSaldo += quantidade * moedaModel.valorVenda!!
         }
         return moedaModel.isoValor
     }
-//    fun atualizaValorCaixa(moeda: MoedaModel) : Int{
-//    when {
-//        moeda.isoMoeda.equals("USD") -> moeda.isoValor = usd
-//        moeda.isoMoeda.equals("EUR") -> moeda.isoValor = eur
-//        moeda.isoMoeda.equals("GBP") -> moeda.isoValor = gbp
-//        moeda.isoMoeda.equals("ARS") -> moeda.isoValor = ars
-//        moeda.isoMoeda.equals("CAD") -> moeda.isoValor = cad
-//        moeda.isoMoeda.equals("AUD") -> moeda.isoValor = aud
-//        moeda.isoMoeda.equals("JPY") -> moeda.isoValor = jpy
-//        moeda.isoMoeda.equals("CNY") -> moeda.isoValor = cny
-//        moeda.isoMoeda.equals("BTC") -> moeda.isoValor = btc
-//    } }
 
 }

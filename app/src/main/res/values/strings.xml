@@ -7,4 +7,6 @@
     <string name="vender">VENDER</string>
     <string name="quantidade">Quantidade</string>
     <string name="em_caixa">em caixa</string>
+    <string name="vender_compraevenda">Vender</string>
+    <string name="home">HOME</string>
 </resources>

@@ -111,6 +111,8 @@ class TelaCambio : AppCompatActivity() {
                                 val intent = Intent(applicationContext, TelaCompraVenda::class.java)
                                 viewModel.simulaValorParaSingleton(moeda!!)
                                 intent.putExtra("moeda", moeda)
+                                intent.putExtra("quantidade", textoDigitado)
+                                FuncoesUtils.ehCompra = false
                                 startActivity(intent)
                             }
 
@@ -135,6 +137,8 @@ class TelaCambio : AppCompatActivity() {
                             val intent = Intent(applicationContext, TelaCompraVenda::class.java)
                             viewModel.simulaValorParaSingleton(moeda!!)
                             intent.putExtra("moeda", moeda)
+                            intent.putExtra("quantidade", caracteresDigitados)
+                            FuncoesUtils.ehCompra = true
                             startActivity(intent)
                         }
                     } else {

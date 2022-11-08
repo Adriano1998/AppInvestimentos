@@ -2,6 +2,7 @@ package com.br.brqinvestimentos.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -47,7 +48,10 @@ class TelaHome : AppCompatActivity() {
         }
         viewModel.atualizaMoedas()
 
+        viewModel.toastMessageObserver.observe(this) { message ->
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
 
+        }
     }
 
     private fun configuraRecyclerView() {
