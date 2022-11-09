@@ -104,7 +104,7 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
     }
 
     fun validaQuantidadeComCompra(quantidade: Int, moedaModel: MoedaModel): Boolean {
-        if (quantidade * moedaModel.valorCompra!! <= FuncoesUtils.quantidadeSaldo) {
+        if (quantidade * moedaModel.valorCompra!! <= FuncoesUtils.quantidadeSaldo && quantidade > 0) {
             return true
         }
         return false

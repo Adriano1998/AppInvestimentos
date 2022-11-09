@@ -7,34 +7,44 @@
     android:background="#000000"
     tools:context=".ui.TelaCompraVenda">
 
-    <include layout="@layout/toolbarcompraevenda" android:id="@+id/toolbarcompravenda"> </include>
+    <include
+        android:id="@+id/toolbarcompravenda"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/toolbarcompraevenda" />
 
-   <TextView
-       android:id="@+id/textoCompraVenda"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintLeft_toLeftOf="parent"
-       app:layout_constraintRight_toRightOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       android:textSize="32dp"
-       android:textAlignment="center"
-       android:textColor="#7ED321"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"></TextView>
+
+
+    <TextView
+        android:id="@+id/textoCompraVenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_marginHorizontal="24dp"
+        android:textColor="#7ED321"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnVaiParaHome"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="125dp"
+        android:layout_width="151dp"
+        android:layout_height="43dp"
+        android:layout_marginHorizontal="112dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/retangulobotaoativado"
         android:backgroundTint="#3C8DBC"
+        android:textSize="24sp"
         android:text="@string/home"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="20dp"
 
         app:layout_constraintVertical_bias="1.0">
 

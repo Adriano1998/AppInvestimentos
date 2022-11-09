@@ -7,20 +7,22 @@
     android:background="#000000"
     tools:context=".ui.TelaHome">
 
-    <include layout="@layout/toolbar">
+    <include layout="@layout/toolbar"
+
+        >
 
     </include>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMoedasTelaHome"
-        android:layout_marginTop="88dp"
         android:layout_width="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="88dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
 
         tools:listitem="@layout/item_moedas">
 

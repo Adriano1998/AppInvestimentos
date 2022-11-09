@@ -31,6 +31,7 @@ class TelaCambio : AppCompatActivity() {
     private val sbSaldo = StringBuilder()
     private val sbCaixa = StringBuilder()
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
         binding.txtSaldoDisponivelVariavel.text = FuncoesUtils.quantidadeSaldo.toBigDecimal()
@@ -40,7 +41,7 @@ class TelaCambio : AppCompatActivity() {
 
         }
 
-        binding.txtEmCaixa.text = moeda?.isoValor.toString() + " " + moeda?.nome + " " +  "em caixa"
+        binding.txtEmCaixa.text = moeda?.isoValor.toString() + " " + moeda?.nome + " " + "em caixa"
 
 
     }
@@ -48,10 +49,8 @@ class TelaCambio : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if(savedInstanceState!=null){
-//            viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
-//            viewModel.desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
-//        }
+        iniciaToolbarCambio()
+
         setContentView(binding.root)
         moeda = intent.getSerializableExtra("moeda") as? MoedaModel
 
@@ -64,27 +63,9 @@ class TelaCambio : AppCompatActivity() {
             viewModel.simulaValorParaSingleton(it)
         }
 
-        binding.btnVoltarTelaHome.setOnClickListener {
+        binding.toolbarcambio.btnVoltarTelaMoedas.setOnClickListener {
             finish()
         }
-
-//        sbSaldo?.let {
-//            it.append(binding.txtSaldoDisponivel.text)
-//                .append(" ")
-//                .append(FuncoesUtils.quantidadeSaldo.toBigDecimal().setScale(2, RoundingMode.UP))
-//                .toString()
-//            binding.txtSaldoDisponivel.text = it
-//        }
-
-//        sbCaixa?.let {
-//            it.append(moeda?.isoValor)
-//                .append(" ")
-//                .append(moeda?.nome)
-//                .append(" ")
-//            it.append(binding.txtEmCaixa.text)
-//                .toString()
-//            binding.txtEmCaixa.text = it
-//        }
 
         viewModel.desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
 
@@ -160,13 +141,6 @@ class TelaCambio : AppCompatActivity() {
             binding.txtSaldoDisponivel.text = it
         }
 
-//        sbSaldoVariavel?.let {
-//            it.append(binding.txtSaldoDisponivelVariavel.text)
-//                .append(" ")
-//                .append(FuncoesUtils.quantidadeSaldo.toBigDecimal().setScale(2, RoundingMode.UP))
-//                .toString()
-//            binding.txtSaldoDisponivelVariavel.text = it
-//        }
     }
 
 
@@ -194,6 +168,14 @@ class TelaCambio : AppCompatActivity() {
         } else {
             binding.txtVendaMoedaCambio.text = "Venda: R$ ${it.valorVenda} "
         }
+    }
+
+    private fun iniciaToolbarCambio() {
+        setSupportActionBar(binding.toolbarcambio.toolbarCambio)
+        supportActionBar?.let {
+            it.setDisplayShowTitleEnabled(false)
+        }
+
     }
 
 

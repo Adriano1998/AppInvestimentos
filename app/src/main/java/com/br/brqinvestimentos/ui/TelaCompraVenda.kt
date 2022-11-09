@@ -25,7 +25,7 @@ class TelaCompraVenda : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        iniciaToolbar()
+
 
         moeda = intent.getSerializableExtra("moeda") as? MoedaModel
 
@@ -36,6 +36,7 @@ class TelaCompraVenda : AppCompatActivity() {
             finish()
         }
 
+
         binding.btnVaiParaHome.setOnClickListener {
             val intent = Intent(applicationContext, TelaHome::class.java)
             viewModel.simulaValorParaSingleton(moeda!!)
@@ -45,6 +46,7 @@ class TelaCompraVenda : AppCompatActivity() {
         val quantidade = intent.getIntExtra("quantidade", 0)
 
         if (!FuncoesUtils.ehCompra) {
+            iniciaToolbarVenda()
             val contaVenda = quantidade * moeda?.valorVenda!!
             sbTexto.let {
                 it.append("Parabéns!\n")
@@ -61,6 +63,7 @@ class TelaCompraVenda : AppCompatActivity() {
                 binding.textoCompraVenda.text = it
             }
         } else {
+            iniciaToolbarCompra()
             val contaCompra = quantidade * moeda?.valorCompra!!
             sbTexto.let {
                 it.append("Parabéns!\n")
@@ -78,25 +81,22 @@ class TelaCompraVenda : AppCompatActivity() {
             }
         }
 
-//        moeda?.let {
-//            binding.textView.text = it.nome.toString()
-//            binding.textView2.text = it.isoValor.toString()
-//            binding.textView3.text = it.isoMoeda
-////            viewModel.simulaValorParaSingleton(it)
-//        }
-//        binding.button.setOnClickListener {
-//            val intent = Intent(applicationContext, TelaHome::class.java)
-//            viewModel.simulaValorParaSingleton(moeda!!)
-//            intent.putExtra("moeda", moeda)
-//            startActivity(intent)
-//        }
     }
 
-    private fun iniciaToolbar() {
+    private fun iniciaToolbarVenda() {
         setSupportActionBar(binding.toolbarcompravenda.toolbarCompraVenda)
         supportActionBar?.let {
             it.setDisplayShowTitleEnabled(false)
+            binding.toolbarcompravenda.toolbarcompraevendaTitle.text = "Vender"
+        }
 
+    }
+
+    private fun iniciaToolbarCompra() {
+        setSupportActionBar(binding.toolbarcompravenda.toolbarCompraVenda)
+        supportActionBar?.let {
+            it.setDisplayShowTitleEnabled(false)
+            binding.toolbarcompravenda.toolbarcompraevendaTitle.text = "Comprar"
         }
 
     }

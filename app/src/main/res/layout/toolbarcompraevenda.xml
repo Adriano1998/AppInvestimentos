@@ -17,7 +17,6 @@
 
     <TextView
         android:id="@+id/toolbarcompraevenda_subTitle"
-        android:fontFamily="@font/helvetica"
         android:accessibilityHeading="true"
         android:layout_width="wrap_content"
         android:layout_marginStart="10dp"
@@ -32,13 +31,12 @@
 
     <TextView
         android:id="@+id/toolbarcompraevenda_title"
-        android:fontFamily="@font/helvetica"
         android:accessibilityHeading="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="8dp"
-        android:text="@string/vender_compraevenda"
+
         android:textColor="@color/white"
         android:textSize="17sp">
 
