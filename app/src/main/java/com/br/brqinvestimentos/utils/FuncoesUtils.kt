@@ -1,7 +1,11 @@
 package com.br.brqinvestimentos.utils
 
 import android.graphics.Color
+import android.graphics.Rect
+import android.view.TouchDelegate
+import android.view.View
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import com.br.brqinvestimentos.model.MoedaModel
 import java.math.RoundingMode
 
@@ -54,6 +58,22 @@ object FuncoesUtils {
                         else -> ""
                     }
             }
+        }
+    }
+
+
+    @BindingAdapter("increaseTouch")
+    fun increaseTouch(view: View, value: Float) {
+        val parent = view.parent
+        (parent as View).post {
+            val rect = Rect()
+            view.getHitRect(rect)
+            val intValue = value.toInt()
+            rect.top -= intValue // increase top hit area
+            rect.left -= intValue // increase left hit area
+            rect.bottom += intValue // increase bottom hit area
+            rect.right += intValue // increase right hit area
+            parent.setTouchDelegate(TouchDelegate(rect, view));
         }
     }
 

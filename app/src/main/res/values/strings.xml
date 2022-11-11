@@ -9,4 +9,6 @@
     <string name="em_caixa">em caixa</string>
     <string name="vender_compraevenda">Vender</string>
     <string name="home">HOME</string>
+    <string name="voltar_para_tela_de_cambio">Voltar para tela de cambio</string>
+    <string name="voltar_para_tela_home">Voltar para tela lista de moedas</string>
 </resources>

@@ -7,9 +7,9 @@
     android:background="#000000"
     tools:context=".ui.TelaHome">
 
-    <include layout="@layout/toolbar"
-
-        >
+    <include
+        android:id="@+id/toolbarHome"
+        layout="@layout/toolbar_home">
 
     </include>
 

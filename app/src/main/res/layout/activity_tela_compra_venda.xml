@@ -9,20 +9,19 @@
 
     <include
         android:id="@+id/toolbarcompravenda"
+        layout="@layout/toolbarcompraevenda"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        layout="@layout/toolbarcompraevenda" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/textoCompraVenda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:layout_marginHorizontal="24dp"
+        android:textAlignment="center"
         android:textColor="#7ED321"
         android:textSize="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,9 +37,10 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/retangulobotaoativado"
         android:backgroundTint="#3C8DBC"
-        android:textSize="24sp"
+        android:contentDescription="@string/voltar_para_tela_home"
         android:text="@string/home"
         android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

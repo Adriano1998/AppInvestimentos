@@ -7,21 +7,21 @@
     android:background="#000000"
     tools:context=".ui.TelaCambio">
 
-    <include layout="@layout/toolbar_cambio"
+    <include
         android:id="@+id/toolbarcambio"
-        >
+        layout="@layout/toolbar_cambio">
 
     </include>
-
 
 
     <LinearLayout
         android:id="@+id/ll_cardMoeda"
         android:layout_width="327dp"
         android:layout_height="171dp"
-        android:layout_marginTop="88dp"
         android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="88dp"
         android:background="@drawable/retangulo"
+        android:focusable="true"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtVariacaoMoedaCambio"
@@ -145,13 +145,13 @@
         android:id="@+id/btnVender"
         android:layout_width="151dp"
         android:layout_height="43dp"
-        android:textSize="24sp"
-        android:fontFamily="@font/arial"
         android:layout_marginBottom="40dp"
         android:background="@drawable/retangulo"
         android:backgroundTint="#3C8DBC"
+        android:fontFamily="@font/arial"
         android:text="@string/vender"
         android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/ll_quantidade"
         app:layout_constraintTop_toBottomOf="@id/ll_quantidade"
@@ -164,14 +164,14 @@
         android:id="@+id/btnComprar"
         android:layout_width="151dp"
         android:layout_height="43dp"
-        android:textSize="24sp"
-        android:fontFamily="@font/arial"
         android:layout_marginBottom="40dp"
         android:background="@drawable/retangulo"
-
+        android:fontFamily="@font/arial"
         android:text="@string/comprar"
 
         android:textColor="#FFFFFF"
+
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/ll_quantidade"
         app:layout_constraintTop_toBottomOf="@id/ll_quantidade"
@@ -185,6 +185,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:importantForAccessibility="no"
         android:textColor="@color/white"
         android:textSize="24sp"
 

@@ -1,26 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#D1000000">
+    android:background="@color/black"
+    android:focusable="true">
 
     <TextView
-        android:id="@+id/toolbar_title"
+        android:id="@+id/toolbarTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingHorizontal="8dp"
         android:gravity="center"
-        android:accessibilityHeading="true"
-
+        android:importantForAccessibility="yes"
+        android:padding="8dp"
         android:text="@string/moedas"
-        android:textAlignment="gravity"
         android:textColor="@color/white"
-        android:textSize="17sp">
-
-    </TextView>
-
-
+        android:textSize="17sp" />
 </androidx.appcompat.widget.Toolbar>
