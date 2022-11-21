@@ -10,6 +10,7 @@ import com.br.brqinvestimentos.adapter.ListaMoedasAdapter
 import com.br.brqinvestimentos.databinding.ActivityTelaHomeBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
+import com.br.brqinvestimentos.utils.Constantes.Companion.MOEDA
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
@@ -31,7 +32,7 @@ class TelaHome : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configuraRecyclerView()
-        moeda = intent.getSerializableExtra("moeda") as? MoedaModel
+        moeda = intent.getSerializableExtra(MOEDA) as? MoedaModel
 
 
         viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
@@ -63,7 +64,7 @@ class TelaHome : AppCompatActivity() {
 
     private fun vaiParaTelaCambio(moeda: MoedaModel) {
         Intent(this, TelaCambio::class.java).apply {
-            putExtra("moeda", moeda)
+            putExtra(MOEDA, moeda)
             startActivity(this)
         }
     }

@@ -41,17 +41,12 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
                 )
                 listaDeMoedas.postValue(listaMoedas)
             } catch (e: Exception) {
-                toastMessageObserver.postValue( "Algo inesperado aconteceu com a nossa requisição.")
+                toastMessageObserver.postValue("Algo inesperado aconteceu com a nossa requisição.")
 
             }
 
         }
 
-    }
-
-    fun desabilitaBotao(botao: Button, caminhoDrawable: Int) {
-        botao.isEnabled = false
-        botao.setBackgroundResource(caminhoDrawable)
     }
 
     fun validaQuantidadeComVenda(quantidade: Int, moedaModel: MoedaModel): Boolean {
@@ -104,28 +99,26 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
     }
 
     fun validaQuantidadeComCompra(quantidade: Int, moedaModel: MoedaModel): Boolean {
-        if (quantidade * moedaModel.valorCompra!! <= FuncoesUtils.quantidadeSaldo && quantidade > 0) {
-            return true
+        if (moedaModel.valorCompra != null) {
+            if (quantidade * moedaModel.valorCompra <= FuncoesUtils.quantidadeSaldo && quantidade > 0) {
+                return true
+            }
+            return false
         }
         return false
     }
 
-    fun habilitaBotao(botao: Button, caminhoDrawable: Int) {
-        botao.isEnabled = true
-        botao.setBackgroundResource(caminhoDrawable)
-    }
-
     fun calculaCompra(quantidade: Int, moedaModel: MoedaModel, funcoesUtils: FuncoesUtils) {
-        if (validaQuantidadeComCompra(quantidade, moedaModel) && moedaModel.valorCompra!= null) {
+        if (validaQuantidadeComCompra(quantidade, moedaModel) && moedaModel.valorCompra != null) {
             funcoesUtils.quantidadeSaldo -= quantidade * moedaModel.valorCompra
             somaValorSimulado(moedaModel, quantidade)
         }
     }
 
     fun calculaVenda(quantidade: Int, moedaModel: MoedaModel, funcoesUtils: FuncoesUtils): Int {
-        if (validaQuantidadeComVenda(quantidade, moedaModel)) {
+        if (validaQuantidadeComVenda(quantidade, moedaModel) && moedaModel.valorVenda != null) {
             subtraiValorSimulado(moedaModel, quantidade)
-            funcoesUtils.quantidadeSaldo += quantidade * moedaModel.valorVenda!!
+            funcoesUtils.quantidadeSaldo += quantidade * moedaModel.valorVenda
         }
         return moedaModel.isoValor
     }
