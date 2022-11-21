@@ -5,9 +5,17 @@ import android.graphics.Rect
 import android.view.TouchDelegate
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import com.br.brqinvestimentos.R
+import com.br.brqinvestimentos.model.DataCurrencies
 import com.br.brqinvestimentos.model.MoedaModel
+import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.*
 
 object FuncoesUtils {
 
@@ -24,11 +32,21 @@ object FuncoesUtils {
 
     var ehCompra = false
 
+//    val map: HashMap<String, Int> = hashMapOf(
+//        "USD" to 15, "EUR" to 10, "GBP" to 0, "ARS" to 3, "CAD" to 5, "AUD" to 3,
+//        "JPY" to 2, "CNY" to 4, "BTC" to 1
+//    )
 
     fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
         val variacao = "0.0"
+
         if (moeda.variacao!! < variacao.toBigDecimal() && moeda.variacao != null) {
-            txtVariacao.setTextColor(Color.parseColor("#D0021B"))
+            txtVariacao.setTextColor(
+                ContextCompat.getColor(
+                    txtVariacao.context,
+                    R.color.variation_red
+                )
+            )
         } else if (moeda.variacao!! == variacao.toBigDecimal() && moeda.variacao != null) {
             txtVariacao.setTextColor(Color.parseColor("#FFFFFF"))
         } else {
@@ -36,9 +54,17 @@ object FuncoesUtils {
         }
     }
 
-    fun acertaCasasDecimaisVariacao(moeda: MoedaModel, txtVariacao: TextView) {
-        txtVariacao.text = moeda.variacao?.setScale(2, RoundingMode.UP).toString() + "%"
+    fun formatadorMoedaBrasileira(valor: Double): String {
+        val locale = Locale("pt", "BR")
+        val formatBrasil = NumberFormat.getCurrencyInstance(locale).format(valor)
+        return formatBrasil
+    }
 
+    fun formataPorcentagem(valor: BigDecimal): String {
+        val decimalFormat = DecimalFormatSymbols.getInstance()
+        decimalFormat.decimalSeparator = ','
+        val df = DecimalFormat("#,##0.00 '%'", decimalFormat).format(valor)
+        return df
     }
 
     fun mapeiaNome(moedas: List<MoedaModel?>): List<MoedaModel?> {

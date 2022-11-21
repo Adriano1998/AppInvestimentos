@@ -11,4 +11,7 @@
     <string name="home">HOME</string>
     <string name="voltar_para_tela_de_cambio">Voltar para tela de cambio</string>
     <string name="voltar_para_tela_home">Voltar para tela lista de moedas</string>
+    <string name="saldo_disponivel_">Saldo disponível:</string>
+    <string name="venda">Venda:</string>
+    <string name="compra">Compra:</string>
 </resources>

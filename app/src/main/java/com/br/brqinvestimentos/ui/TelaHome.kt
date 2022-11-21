@@ -1,22 +1,13 @@
 package com.br.brqinvestimentos.ui
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.AccessibilityDelegateCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.br.brqinvestimentos.adapter.ListaMoedasAdapter
 import com.br.brqinvestimentos.databinding.ActivityTelaHomeBinding
-import com.br.brqinvestimentos.databinding.ToolbarHomeBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
@@ -53,7 +44,7 @@ class TelaHome : AppCompatActivity() {
         viewModel.atualizaMoedas()
 
         viewModel.toastMessageObserver.observe(this) { message ->
-            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+            Toast.makeText(this@TelaHome, message, Toast.LENGTH_LONG).show()
 
         }
 

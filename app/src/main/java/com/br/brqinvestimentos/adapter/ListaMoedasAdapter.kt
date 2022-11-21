@@ -1,13 +1,12 @@
 package com.br.brqinvestimentos.adapter
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.br.brqinvestimentos.databinding.ItemMoedasBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.utils.FuncoesUtils
+import com.br.brqinvestimentos.utils.FuncoesUtils.formataPorcentagem
 
 class ListaMoedasAdapter(
     var quandoClicaNoItem: (moeda: MoedaModel) -> Unit = {},
@@ -35,9 +34,8 @@ class ListaMoedasAdapter(
 
             this.moeda = moeda
             binding.txtNomeMoeda.text = moeda.isoMoeda
-            binding.txtVariacaoMoeda.text = moeda.variacao.toString()
+            binding.txtVariacaoMoeda.text = formataPorcentagem(moeda.variacao!!)
             FuncoesUtils.trocaCorVariacaoMoeda(binding.txtVariacaoMoeda, moeda)
-            FuncoesUtils.acertaCasasDecimaisVariacao(moeda, binding.txtVariacaoMoeda)
         }
 
     }

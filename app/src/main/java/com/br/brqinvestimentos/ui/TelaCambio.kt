@@ -2,21 +2,20 @@ package com.br.brqinvestimentos.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.TouchDelegate
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.databinding.ActivityTelaCambioBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.utils.FuncoesUtils
+import com.br.brqinvestimentos.utils.FuncoesUtils.formataPorcentagem
+import com.br.brqinvestimentos.utils.FuncoesUtils.formatadorMoedaBrasileira
 import com.br.brqinvestimentos.utils.FuncoesUtils.increaseTouch
+import com.br.brqinvestimentos.utils.FuncoesUtils.quantidadeSaldo
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 import java.math.RoundingMode
@@ -32,6 +31,11 @@ class TelaCambio : AppCompatActivity() {
     private var moeda: MoedaModel? = null
 
     private val sbSaldo = StringBuilder()
+
+    private val sbCompra = StringBuilder()
+
+    private val sbVenda = StringBuilder()
+
 
     @SuppressLint("SetTextI18n")
     override fun onResume() {
@@ -49,8 +53,7 @@ class TelaCambio : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun configuraVariaveisOnResume() {
         binding.txtEmCaixa.text = moeda?.isoValor.toString() + " " + moeda?.nome + " " + "em caixa"
-        binding.txtSaldoDisponivelVariavel.text = FuncoesUtils.quantidadeSaldo.toBigDecimal()
-            .setScale(2, RoundingMode.UP).toString()
+        binding.txtSaldoDisponivelVariavel.text = formatadorMoedaBrasileira(quantidadeSaldo)
     }
 
     @SuppressLint("SetTextI18n")
@@ -81,7 +84,7 @@ class TelaCambio : AppCompatActivity() {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
 
             override fun afterTextChanged(s: Editable?) {
@@ -103,7 +106,7 @@ class TelaCambio : AppCompatActivity() {
                 }
 
                 if (s.toString().isNotBlank() && moeda?.valorCompra != null) {
-                    var caracteresDigitados = s.toString().toInt()
+                    val caracteresDigitados = s.toString().toInt()
                     if (viewModel.validaQuantidadeComCompra(caracteresDigitados, moeda!!)) {
                         viewModel.habilitaBotao(
                             binding.btnComprar,
@@ -124,7 +127,7 @@ class TelaCambio : AppCompatActivity() {
         })
 
 
-        sbSaldo?.let {
+        sbSaldo.let {
             it.append(binding.txtSaldoDisponivel.text)
                 .append(" ")
 
@@ -136,7 +139,7 @@ class TelaCambio : AppCompatActivity() {
         }
 
         binding.txtSaldoDisponivel.let {
-            it.contentDescription = "${it.text} ${FuncoesUtils.quantidadeSaldo}"
+            it.contentDescription = "${it.text} $quantidadeSaldo"
         }
 
         increaseTouch(binding.toolbarcambio.btnVoltarTelaMoedas, 150F)
@@ -171,39 +174,42 @@ class TelaCambio : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun vinculaCamposMoeda(it: MoedaModel) {
         binding.txtNomeMoedaCambio.text = "${it.isoMoeda} - ${it.nome}"
-        binding.txtVariacaoMoedaCambio.text = it.variacao.toString()
+        binding.txtVariacaoMoedaCambio.text =
+            it.variacao?.let { variacao -> formataPorcentagem(variacao) }
         FuncoesUtils.trocaCorVariacaoMoeda(binding.txtVariacaoMoedaCambio, it)
-        FuncoesUtils.acertaCasasDecimaisVariacao(it, binding.txtVariacaoMoedaCambio)
-
         validaCamposCompraeVenda(it)
     }
 
     @SuppressLint("SetTextI18n")
     private fun validaCamposCompraeVenda(it: MoedaModel) {
         if (it.valorCompra == null) {
-            binding.txtCompraMoedaCambio.text = "Compra: R$ 0.00"
+            binding.txtCompraMoedaCambio.text = "Compra: ${formatadorMoedaBrasileira(0.00)}"
         } else {
-            binding.txtCompraMoedaCambio.text = "Compra: R$ ${
-                it.valorCompra.toString().toBigDecimal().setScale(2, RoundingMode.UP)
-            } "
+            sbCompra.let {
+                //codigo duplicado.
+                it.append(binding.txtCompraMoedaCambio.text)
+                    .append(" ")
+                    .append(moeda?.valorCompra?.let { compra -> formatadorMoedaBrasileira(compra) })
+                binding.txtCompraMoedaCambio.text = it
+            }
         }
 
         if (it.valorVenda == null) {
-
-            binding.txtVendaMoedaCambio.text = "Venda: R$ 0.00"
+            binding.txtVendaMoedaCambio.text = " ${formatadorMoedaBrasileira(0.00)}"
         } else {
-            binding.txtVendaMoedaCambio.text =
-                "Venda: R$ ${
-                    it.valorVenda.toString().toBigDecimal().setScale(2, RoundingMode.UP)
-                } "
+            sbVenda.let {
+                //codigo duplicado.
+                it.append(binding.txtVendaMoedaCambio.text)
+                    .append(" ")
+                    .append(moeda?.valorVenda?.let { venda -> formatadorMoedaBrasileira(venda) })
+                binding.txtVendaMoedaCambio.text = it
+            }
         }
     }
 
     private fun iniciaToolbarCambio() {
         setSupportActionBar(binding.toolbarcambio.toolbarCambio)
-        supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
-        }
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
     }

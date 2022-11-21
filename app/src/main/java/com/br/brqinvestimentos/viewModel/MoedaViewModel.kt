@@ -116,8 +116,8 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
     }
 
     fun calculaCompra(quantidade: Int, moedaModel: MoedaModel, funcoesUtils: FuncoesUtils) {
-        if (validaQuantidadeComCompra(quantidade, moedaModel)) {
-            funcoesUtils.quantidadeSaldo -= quantidade * moedaModel.valorCompra!!
+        if (validaQuantidadeComCompra(quantidade, moedaModel) && moedaModel.valorCompra!= null) {
+            funcoesUtils.quantidadeSaldo -= quantidade * moedaModel.valorCompra
             somaValorSimulado(moedaModel, quantidade)
         }
     }

@@ -55,7 +55,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtNomeMoedaCambio"
 
-            ></TextView>
+            />
+
 
         <TextView
             android:id="@+id/txtCompraMoedaCambio"
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="15dp"
+            android:text="@string/compra"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -70,7 +72,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtVariacaoMoedaCambio"
 
-            ></TextView>
+            />
 
         <TextView
             android:id="@+id/txtVendaMoedaCambio"
@@ -78,6 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="15dp"
+            android:text="@string/venda"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +88,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtCompraMoedaCambio"
 
-            ></TextView>
+            />
+
+
+
+
     </LinearLayout>
 
     <TextView
@@ -93,7 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/saldo_disponivel"
+        android:text="@string/saldo_disponivel_"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@id/ll_cardMoeda"

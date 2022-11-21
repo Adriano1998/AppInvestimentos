@@ -8,6 +8,7 @@ import com.br.brqinvestimentos.databinding.ActivityTelaCompraVendaBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.utils.FuncoesUtils
+import com.br.brqinvestimentos.utils.FuncoesUtils.formatadorMoedaBrasileira
 import com.br.brqinvestimentos.utils.FuncoesUtils.increaseTouch
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
@@ -63,9 +64,8 @@ class TelaCompraVenda : AppCompatActivity() {
                 .append("-\n")
                 .append(moeda?.nome)
                 .append(", totalizando\n")
-                .append("R$ ")
-                .append(contaCompra.toBigDecimal().setScale(2, RoundingMode.UP))
-            binding.textoCompraVenda.text = it
+                .append(formatadorMoedaBrasileira(contaCompra))
+               binding.textoCompraVenda.text = it
 
         }
     }
@@ -83,7 +83,7 @@ class TelaCompraVenda : AppCompatActivity() {
                 .append(", \n")
                 .append("totalizando\n")
                 .append("R$ ")
-                .append(contaVenda.toBigDecimal().setScale(2, RoundingMode.DOWN))
+                .append(formatadorMoedaBrasileira(contaVenda))
 
             binding.textoCompraVenda.text = it
         }
