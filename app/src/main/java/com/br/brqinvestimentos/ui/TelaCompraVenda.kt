@@ -15,13 +15,13 @@ import com.br.brqinvestimentos.utils.FuncoesUtils.formatadorMoedaBrasileira
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
-class TelaCompraVenda : AppCompatActivity() {
+class TelaCompraVenda : BaseActivity() {
 
     private val binding by lazy {
         ActivityTelaCompraVendaBinding.inflate(layoutInflater)
     }
     private var moeda: MoedaModel? = null
-    lateinit var viewModel: MoedaViewModel
+
     private val sbTexto = StringBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,9 +30,6 @@ class TelaCompraVenda : AppCompatActivity() {
 
         moeda = intent.getSerializableExtra(MOEDA) as? MoedaModel
 
-        viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
-            MoedaViewModel::class.java
-        )
         binding.toolbarcompravenda.btnVoltarTelaCambio.setOnClickListener {
             finish()
         }
@@ -62,10 +59,10 @@ class TelaCompraVenda : AppCompatActivity() {
                     "Parabéns!\n",
                     "Você acabou de \n",
                     "comprar ",
-                    quantidade,
-                    " ",
+                    quantidade, "\t",
+                    "\t",
                     moeda?.isoMoeda,
-                    " ",
+                    "\t",
                     "-\n",
                     moeda?.nome,
                     ", totalizando\n",
@@ -85,12 +82,10 @@ class TelaCompraVenda : AppCompatActivity() {
                 sb.append(
                     "Parabéns!\n",
                     "Você acabou de vender\n",
-                    quantidade,
-                    " ",
-                    moeda?.isoMoeda,
-                    " ",
-                    "-",
-                    " ",
+                    quantidade,"\t",
+                    "\t",
+                    moeda?.isoMoeda, "\t",
+                    "-", "\t",
                     moeda?.nome,
                     ", \n",
                     "totalizando\n",
@@ -105,7 +100,7 @@ class TelaCompraVenda : AppCompatActivity() {
     private fun vaiParaTelaHome() {
         val intent = Intent(this@TelaCompraVenda, TelaHome::class.java)
         moeda?.let {
-            viewModel.simulaValorParaSingleton(it)
+            viewModel.pegaValorHashmap(it.isoMoeda)
         }
         intent.putExtra(MOEDA, moeda)
         startActivity(intent)
@@ -113,9 +108,8 @@ class TelaCompraVenda : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun iniciaToolbarVenda() {
-        setSupportActionBar(binding.toolbarcompravenda.toolbarCompraVenda)
+        iniciaToolbar(binding.toolbarcompravenda.toolbarCompraVenda)
         supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
             binding.toolbarcompravenda.toolbarcompraevendaTitle.text = "Vender"
             binding.toolbarcompravenda.toolbarcompraevendaTitle.let { text ->
                 text.contentDescription = "Vender, Titulo"
@@ -125,9 +119,8 @@ class TelaCompraVenda : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun iniciaToolbarCompra() {
-        setSupportActionBar(binding.toolbarcompravenda.toolbarCompraVenda)
+        iniciaToolbar(binding.toolbarcompravenda.toolbarCompraVenda)
         supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
             binding.toolbarcompravenda.toolbarcompraevendaTitle.text = "Comprar"
             binding.toolbarcompravenda.toolbarcompraevendaTitle.let { text ->
                 text.contentDescription = "Comprar, Titulo"

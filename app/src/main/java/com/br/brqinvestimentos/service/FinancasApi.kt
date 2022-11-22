@@ -10,6 +10,4 @@ interface FinancasApi {
     @GET("finance?fields=only_results,currencies&key=268db62e")
     suspend fun buscaMoedas() : DataCurrencies
 
-
-
 }

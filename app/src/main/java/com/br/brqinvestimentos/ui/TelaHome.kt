@@ -14,11 +14,9 @@ import com.br.brqinvestimentos.utils.Constantes.Companion.MOEDA
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
-class TelaHome : AppCompatActivity() {
+class TelaHome : BaseActivity() {
 
     private var moeda: MoedaModel? = null
-
-    lateinit var viewModel: MoedaViewModel
 
     private val binding by lazy {
         ActivityTelaHomeBinding.inflate(layoutInflater)
@@ -34,11 +32,6 @@ class TelaHome : AppCompatActivity() {
         configuraRecyclerView()
         moeda = intent.getSerializableExtra(MOEDA) as? MoedaModel
 
-
-        viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
-            MoedaViewModel::class.java
-        )
-
         viewModel.listaDeMoedas.observe(this) {
             adapter.atualiza(it)
         }
@@ -46,7 +39,6 @@ class TelaHome : AppCompatActivity() {
 
         viewModel.toastMessageObserver.observe(this) { message ->
             Toast.makeText(this@TelaHome, message, Toast.LENGTH_LONG).show()
-
         }
 
         binding.toolbarHome.toolbarTitulo.let {
@@ -68,6 +60,4 @@ class TelaHome : AppCompatActivity() {
             startActivity(this)
         }
     }
-
-
 }

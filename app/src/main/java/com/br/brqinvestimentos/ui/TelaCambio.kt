@@ -23,13 +23,11 @@ import com.br.brqinvestimentos.utils.FuncoesUtils.trocaCorVariacaoMoeda
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
-class TelaCambio : AppCompatActivity() {
+class TelaCambio : BaseActivity() {
 
     private val binding by lazy {
         ActivityTelaCambioBinding.inflate(layoutInflater)
     }
-
-    lateinit var viewModel: MoedaViewModel
 
     private var moeda: MoedaModel? = null
 
@@ -39,70 +37,61 @@ class TelaCambio : AppCompatActivity() {
 
     private val sbVenda = StringBuilder()
 
-
     @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
-        moeda?.let {
-            viewModel.simulaValorParaSingleton(it)
-        }
         configuraVariaveisOnResume()
     }
 
     @SuppressLint("SetTextI18n")
     private fun configuraVariaveisOnResume() {
-        binding.txtEmCaixa.text = moeda?.isoValor.toString() + " " + moeda?.nome + " " + "em caixa"
+        moeda?.let {
+            binding.txtEmCaixa.text = viewModel.pegaValorHashmap(it.isoMoeda)
+                .toString() + " " + moeda?.nome + " " + "em caixa"
+        }
         binding.txtSaldoDisponivelVariavel.text = formatadorMoedaBrasileira(quantidadeSaldo)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        iniciaToolbarCambio()
+        iniciaToolbar(binding.toolbarcambio.toolbarCambio)
         setContentView(binding.root)
-
 
         moeda = intent.getSerializableExtra(MOEDA) as? MoedaModel
 
-        viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
-            MoedaViewModel::class.java
-        )
-
         moeda?.let {
             vinculaCamposMoeda(it)
-            viewModel.simulaValorParaSingleton(it)
+            viewModel.pegaValorHashmap(it.isoMoeda)
         }
 
         binding.toolbarcambio.btnVoltarTelaMoedas.setOnClickListener {
             finish()
         }
-
         desabilitaBotoesCompraeVenda()
 
         binding.txtinpQuantidade.addTextChangedListener(object : TextWatcher {
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isNotBlank() && moeda?.valorVenda != null) {
                     val textoDigitado = s.toString().toInt()
-                    if (viewModel.validaQuantidadeComVenda(textoDigitado, moeda!!)) {
-                        habilitaBotao(binding.btnVender, R.drawable.retangulobotaoativado)
-                        binding.btnVender.setOnClickListener {
-                            binding.txtinpQuantidade.text?.clear()
-
-                            moeda?.let {
-                                viewModel.calculaVenda(textoDigitado, it, FuncoesUtils).let {
-                                    vaiParaTelaCompraVendaVendendo(textoDigitado)
-                                }
+                    moeda?.let { moedaModel ->
+                        if (viewModel.validaQuantidadeComVenda(textoDigitado, moedaModel)) {
+                            habilitaBotao(binding.btnVender, R.drawable.retangulobotaoativado)
+                            binding.btnVender.setOnClickListener {
+                                binding.txtinpQuantidade.text?.clear()
+                                viewModel.calculaVenda(textoDigitado, moedaModel, FuncoesUtils)
+                                    .let {
+                                        vaiParaTelaCompraVendaVendendo(textoDigitado)
+                                    }
                             }
+                        } else {
+                            desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
                         }
-                    } else {
-                        desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
                     }
+
                 } else {
                     desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
                 }
@@ -130,30 +119,21 @@ class TelaCambio : AppCompatActivity() {
             }
         })
 
-
         sbSaldo.let {
-            it.append(binding.txtSaldoDisponivel.text)
-                .append(" ")
-
+            it.append(binding.txtSaldoDisponivel.text, " ")
             binding.txtSaldoDisponivel.text = it
         }
 
         binding.toolbarcambio.toolbarTitle.let {
             it.contentDescription = "${it.text}, Titulo"
         }
-
         binding.txtSaldoDisponivel.let {
             it.contentDescription = "${it.text} $quantidadeSaldo"
         }
-
     }
-
 
     private fun vaiParaTelaCompraVendaComprando(caracteresDigitados: Int) {
         val intent = Intent(this@TelaCambio, TelaCompraVenda::class.java)
-        moeda?.let {
-            viewModel.simulaValorParaSingleton(it)
-        }
         intent.putExtra(MOEDA, moeda)
         intent.putExtra(QUANTIDADE, caracteresDigitados)
         intent.putExtra(EHCOMPRA, true)
@@ -172,10 +152,6 @@ class TelaCambio : AppCompatActivity() {
 
     private fun vaiParaTelaCompraVendaVendendo(textoDigitado: Int) {
         val intent = Intent(this@TelaCambio, TelaCompraVenda::class.java)
-        moeda?.let {
-            viewModel.simulaValorParaSingleton(it)
-        }
-
         intent.putExtra(MOEDA, moeda)
         intent.putExtra(EHCOMPRA, false)
         intent.putExtra(QUANTIDADE, textoDigitado)
@@ -186,7 +162,6 @@ class TelaCambio : AppCompatActivity() {
         desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
         desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun vinculaCamposMoeda(it: MoedaModel) {
@@ -202,12 +177,11 @@ class TelaCambio : AppCompatActivity() {
         if (it.valorCompra == null) {
             binding.txtCompraMoedaCambio.text =
                 sbCompra.append(binding.txtCompraMoedaCambio.text, formatadorMoedaBrasileira(0.00))
-
         } else {
             sbCompra.let {
                 it.append(
                     binding.txtCompraMoedaCambio.text,
-                    " ",
+                    "\t",
                     moeda?.valorCompra?.let { compra -> formatadorMoedaBrasileira(compra) })
                 binding.txtCompraMoedaCambio.text = it
             }
@@ -217,22 +191,16 @@ class TelaCambio : AppCompatActivity() {
             binding.txtVendaMoedaCambio.text =
                 sbVenda.append(
                     binding.txtVendaMoedaCambio.text,
-                    " ${formatadorMoedaBrasileira(0.00)}"
+                    "\t${formatadorMoedaBrasileira(0.00)}"
                 )
-
         } else {
             sbVenda.let {
                 it.append(
                     binding.txtVendaMoedaCambio.text,
-                    " ",
+                    "\t",
                     moeda?.valorVenda?.let { venda -> formatadorMoedaBrasileira(venda) })
                 binding.txtVendaMoedaCambio.text = it
             }
         }
-    }
-
-    private fun iniciaToolbarCambio() {
-        setSupportActionBar(binding.toolbarcambio.toolbarCambio)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 }

@@ -13,22 +13,11 @@ import java.util.*
 object FuncoesUtils {
 
     var quantidadeSaldo = 1000.0
-    var usd = 5
-    var eur = 3
-    var gbp = 4
-    var ars = 3
-    var cad = 2
-    var aud = 0
-    var jpy = 4
-    var cny = 2
-    var btc = 2
 
-
-//    val map: HashMap<String, Int> = hashMapOf(
-//        "USD" to 15, "EUR" to 10, "GBP" to 0, "ARS" to 3, "CAD" to 5, "AUD" to 3,
-//        "JPY" to 2, "CNY" to 4, "BTC" to 1
-//    )
-
+    var valoresMoedas: HashMap<String, Int> = hashMapOf(
+        "USD" to 15, "EUR" to 10, "GBP" to 0, "ARS" to 3, "CAD" to 5, "AUD" to 3,
+        "JPY" to 2, "CNY" to 4, "BTC" to 1
+    )
 
     fun trocaCorVariacaoMoeda(txtVariacao: TextView, moeda: MoedaModel) {
         val variacao = "0.0"

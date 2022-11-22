@@ -17,6 +17,9 @@
         android:theme="@style/Theme.BRQInvestimentos"
         tools:targetApi="31">
         <activity
+            android:name=".BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.TelaCompraVenda"
             android:exported="false" />
         <activity
