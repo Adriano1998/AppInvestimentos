@@ -41,10 +41,9 @@ class TelaHome : BaseActivity() {
             Toast.makeText(this@TelaHome, message, Toast.LENGTH_LONG).show()
         }
 
-        binding.toolbarHome.toolbarTitulo.let {
-            it.contentDescription = "${it.text}, Titulo"
-        }
+        configuraToolbar(false, "Moedas", binding.toolbarHome.toolbarTitle, binding.toolbarHome.btnVoltarTelaMoedas)
     }
+
 
     private fun configuraRecyclerView() {
         binding.rvMoedasTelaHome.adapter = adapter

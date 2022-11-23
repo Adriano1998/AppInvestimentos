@@ -9,9 +9,7 @@
 
     <include
         android:id="@+id/toolbarHome"
-        layout="@layout/toolbar_home">
-
-    </include>
+        layout="@layout/toolbar_generica" />
 
 
     <androidx.recyclerview.widget.RecyclerView

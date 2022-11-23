@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.databinding.ActivityTelaCambioBinding
 import com.br.brqinvestimentos.model.MoedaModel
-import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.utils.Constantes.Companion.EHCOMPRA
 import com.br.brqinvestimentos.utils.Constantes.Companion.MOEDA
 import com.br.brqinvestimentos.utils.Constantes.Companion.QUANTIDADE
@@ -20,8 +17,6 @@ import com.br.brqinvestimentos.utils.FuncoesUtils.formataPorcentagem
 import com.br.brqinvestimentos.utils.FuncoesUtils.formatadorMoedaBrasileira
 import com.br.brqinvestimentos.utils.FuncoesUtils.quantidadeSaldo
 import com.br.brqinvestimentos.utils.FuncoesUtils.trocaCorVariacaoMoeda
-import com.br.brqinvestimentos.viewModel.MainViewModelFactory
-import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
 class TelaCambio : BaseActivity() {
 
@@ -41,13 +36,14 @@ class TelaCambio : BaseActivity() {
     override fun onResume() {
         super.onResume()
         configuraVariaveisOnResume()
+        configuraSubTituloToolbar(true, "Moedas", binding.toolbarCambio.toolbarSubTitle)
     }
 
     @SuppressLint("SetTextI18n")
     private fun configuraVariaveisOnResume() {
         moeda?.let {
             binding.txtEmCaixa.text = viewModel.pegaValorHashmap(it.isoMoeda)
-                .toString() + " " + moeda?.nome + " " + "em caixa"
+                .toString() + "\u0020 " + moeda?.nome + " " + "em caixa"
         }
         binding.txtSaldoDisponivelVariavel.text = formatadorMoedaBrasileira(quantidadeSaldo)
     }
@@ -55,21 +51,37 @@ class TelaCambio : BaseActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        iniciaToolbar(binding.toolbarcambio.toolbarCambio)
+
         setContentView(binding.root)
 
         moeda = intent.getSerializableExtra(MOEDA) as? MoedaModel
 
+        configuraToolbar(
+            true,
+            "Câmbio",
+            binding.toolbarCambio.toolbarTitle,
+            binding.toolbarCambio.btnVoltarTelaMoedas
+        )
         moeda?.let {
             vinculaCamposMoeda(it)
             viewModel.pegaValorHashmap(it.isoMoeda)
         }
 
-        binding.toolbarcambio.btnVoltarTelaMoedas.setOnClickListener {
-            finish()
-        }
         desabilitaBotoesCompraeVenda()
 
+        configuraCampoQuantidade()
+
+        sbSaldo.let {
+            it.append(binding.txtSaldoDisponivel.text, " ")
+            binding.txtSaldoDisponivel.text = it
+        }
+
+        binding.txtSaldoDisponivel.let {
+            it.contentDescription = "${it.text} $quantidadeSaldo"
+        }
+    }
+
+    private fun configuraCampoQuantidade() {
         binding.txtinpQuantidade.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -82,10 +94,10 @@ class TelaCambio : BaseActivity() {
                             habilitaBotao(binding.btnVender, R.drawable.retangulobotaoativado)
                             binding.btnVender.setOnClickListener {
                                 binding.txtinpQuantidade.text?.clear()
-                                viewModel.calculaVenda(textoDigitado, moedaModel, FuncoesUtils)
-                                    .let {
-                                        vaiParaTelaCompraVendaVendendo(textoDigitado)
-                                    }
+                                val total =
+                                    viewModel.calculaVenda(textoDigitado, moedaModel)
+                                vaiParaTelaCompraVendaVendendo(textoDigitado, total)
+
                             }
                         } else {
                             desabilitaBotao(binding.btnVender, R.drawable.retangulobotao)
@@ -106,8 +118,8 @@ class TelaCambio : BaseActivity() {
                             )
                             binding.btnComprar.setOnClickListener {
                                 binding.txtinpQuantidade.text?.clear()
-                                viewModel.calculaCompra(caracteresDigitados, moeda, FuncoesUtils)
-                                vaiParaTelaCompraVendaComprando(caracteresDigitados)
+                                val total = viewModel.calculaCompra(caracteresDigitados, moeda)
+                                vaiParaTelaCompraVendaComprando(caracteresDigitados, total)
                             }
                         } else {
                             desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
@@ -118,25 +130,14 @@ class TelaCambio : BaseActivity() {
                 }
             }
         })
-
-        sbSaldo.let {
-            it.append(binding.txtSaldoDisponivel.text, " ")
-            binding.txtSaldoDisponivel.text = it
-        }
-
-        binding.toolbarcambio.toolbarTitle.let {
-            it.contentDescription = "${it.text}, Titulo"
-        }
-        binding.txtSaldoDisponivel.let {
-            it.contentDescription = "${it.text} $quantidadeSaldo"
-        }
     }
 
-    private fun vaiParaTelaCompraVendaComprando(caracteresDigitados: Int) {
+    private fun vaiParaTelaCompraVendaComprando(caracteresDigitados: Int, total: Double) {
         val intent = Intent(this@TelaCambio, TelaCompraVenda::class.java)
         intent.putExtra(MOEDA, moeda)
         intent.putExtra(QUANTIDADE, caracteresDigitados)
         intent.putExtra(EHCOMPRA, true)
+        intent.putExtra("qtTotal", total)
         startActivity(intent)
     }
 
@@ -150,11 +151,12 @@ class TelaCambio : BaseActivity() {
         botao.setBackgroundResource(caminhoDrawable)
     }
 
-    private fun vaiParaTelaCompraVendaVendendo(textoDigitado: Int) {
+    private fun vaiParaTelaCompraVendaVendendo(textoDigitado: Int, total: Double) {
         val intent = Intent(this@TelaCambio, TelaCompraVenda::class.java)
         intent.putExtra(MOEDA, moeda)
         intent.putExtra(EHCOMPRA, false)
         intent.putExtra(QUANTIDADE, textoDigitado)
+        intent.putExtra("qtTotal", total)
         startActivity(intent)
     }
 
@@ -172,7 +174,6 @@ class TelaCambio : BaseActivity() {
         validaCamposCompraeVenda(it)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun validaCamposCompraeVenda(it: MoedaModel) {
         if (it.valorCompra == null) {
             binding.txtCompraMoedaCambio.text =

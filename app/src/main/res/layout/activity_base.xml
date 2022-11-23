@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.BaseActivity">
 
+    <include
+        android:id="@+id/toolbargenerica"
+        layout="@layout/toolbar_generica">
+
+    </include>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

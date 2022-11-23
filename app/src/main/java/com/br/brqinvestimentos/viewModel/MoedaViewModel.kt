@@ -5,6 +5,7 @@ import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
 import com.br.brqinvestimentos.utils.FuncoesUtils
 import com.br.brqinvestimentos.utils.FuncoesUtils.mapeiaNome
+import com.br.brqinvestimentos.utils.FuncoesUtils.quantidadeSaldo
 import com.br.brqinvestimentos.utils.FuncoesUtils.valoresMoedas
 import kotlinx.coroutines.launch
 
@@ -67,7 +68,8 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
     }
 
 
-    fun calculaCompra(quantidade: Int, moedaModel: MoedaModel, funcoesUtils: FuncoesUtils) {
+    fun calculaCompra(quantidade: Int, moedaModel: MoedaModel): Double {
+        var quantidadeTotal = 0.0
         if (validaQuantidadeComCompra(quantidade, moedaModel) && moedaModel.valorCompra != null) {
             valoresMoedas.forEach {
                 if (it.key == moedaModel.isoMoeda) {
@@ -76,11 +78,14 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
                     valoresMoedas[it.key] = quantidadeSimulada
                 }
             }
-            funcoesUtils.quantidadeSaldo -= quantidade * moedaModel.valorCompra
+            quantidadeTotal = quantidade * moedaModel.valorCompra
+            quantidadeSaldo -= quantidadeTotal
         }
+        return quantidadeTotal
     }
 
-    fun calculaVenda(quantidade: Int, moedaModel: MoedaModel, funcoesUtils: FuncoesUtils) {
+    fun calculaVenda(quantidade: Int, moedaModel: MoedaModel) : Double {
+        var quantidadeTotal = 0.0
         if (validaQuantidadeComVenda(quantidade, moedaModel) && moedaModel.valorVenda != null) {
 
             valoresMoedas.forEach {
@@ -90,8 +95,10 @@ class MoedaViewModel(private val repository: MoedaRepository) : BaseViewModel() 
                     valoresMoedas[it.key] = quantidadeSimulada
                 }
             }
-            funcoesUtils.quantidadeSaldo += quantidade * moedaModel.valorVenda
+            quantidadeTotal = quantidade * moedaModel.valorVenda
+            quantidadeSaldo += quantidadeTotal
         }
+        return quantidadeTotal
     }
 
 }
