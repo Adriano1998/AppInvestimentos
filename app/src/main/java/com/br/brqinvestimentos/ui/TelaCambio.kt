@@ -1,6 +1,5 @@
 package com.br.brqinvestimentos.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -12,7 +11,7 @@ import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.utils.Constantes.Companion.EHCOMPRA
 import com.br.brqinvestimentos.utils.Constantes.Companion.MOEDA
 import com.br.brqinvestimentos.utils.Constantes.Companion.QUANTIDADE
-import com.br.brqinvestimentos.utils.FuncoesUtils
+import com.br.brqinvestimentos.utils.Constantes.Companion.QUANTIDADE_TOTAL
 import com.br.brqinvestimentos.utils.FuncoesUtils.formataPorcentagem
 import com.br.brqinvestimentos.utils.FuncoesUtils.formatadorMoedaBrasileira
 import com.br.brqinvestimentos.utils.FuncoesUtils.quantidadeSaldo
@@ -32,23 +31,34 @@ class TelaCambio : BaseActivity() {
 
     private val sbVenda = StringBuilder()
 
-    @SuppressLint("SetTextI18n")
+
     override fun onResume() {
         super.onResume()
         configuraVariaveisOnResume()
-        configuraSubTituloToolbar(true, "Moedas", binding.toolbarCambio.toolbarSubTitle)
+        configuraSubTituloToolbar(
+            true,
+            getString(R.string.Moedas),
+            binding.toolbarCambio.toolbarSubTitle
+        )
     }
 
-    @SuppressLint("SetTextI18n")
     private fun configuraVariaveisOnResume() {
         moeda?.let {
-            binding.txtEmCaixa.text = viewModel.pegaValorHashmap(it.isoMoeda)
-                .toString() + "\u0020 " + moeda?.nome + " " + "em caixa"
+
+            buildString {
+                this.append(
+                    viewModel.pegaValorHashmap(it.isoMoeda).toString(),
+                    getString(R.string.espaco),
+                    moeda?.nome,
+                    getString(R.string.espaco),
+                    getString(R.string.em_caixa)
+                )
+                binding.txtEmCaixa.text = this
+            }
         }
         binding.txtSaldoDisponivelVariavel.text = formatadorMoedaBrasileira(quantidadeSaldo)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,27 +68,33 @@ class TelaCambio : BaseActivity() {
 
         configuraToolbar(
             true,
-            "Câmbio",
+            getString(R.string.cambio),
             binding.toolbarCambio.toolbarTitle,
             binding.toolbarCambio.btnVoltarTelaMoedas
         )
+
         moeda?.let {
             vinculaCamposMoeda(it)
             viewModel.pegaValorHashmap(it.isoMoeda)
         }
-
         desabilitaBotoesCompraeVenda()
 
         configuraCampoQuantidade()
 
+        configuraMostrarSaldoDisponivel()
+
+        configuraAcessibilidade()
+    }
+
+    private fun configuraMostrarSaldoDisponivel() {
         sbSaldo.let {
-            it.append(binding.txtSaldoDisponivel.text, " ")
+            it.append(binding.txtSaldoDisponivel.text, getString(R.string.espaco))
             binding.txtSaldoDisponivel.text = it
         }
+    }
 
-        binding.txtSaldoDisponivel.let {
-            it.contentDescription = "${it.text} $quantidadeSaldo"
-        }
+    private fun configuraAcessibilidade() {
+        binding.txtSaldoDisponivel.contentDescription = quantidadeSaldo.toString()
     }
 
     private fun configuraCampoQuantidade() {
@@ -137,7 +153,7 @@ class TelaCambio : BaseActivity() {
         intent.putExtra(MOEDA, moeda)
         intent.putExtra(QUANTIDADE, caracteresDigitados)
         intent.putExtra(EHCOMPRA, true)
-        intent.putExtra("qtTotal", total)
+        intent.putExtra(QUANTIDADE_TOTAL, total)
         startActivity(intent)
     }
 
@@ -156,7 +172,7 @@ class TelaCambio : BaseActivity() {
         intent.putExtra(MOEDA, moeda)
         intent.putExtra(EHCOMPRA, false)
         intent.putExtra(QUANTIDADE, textoDigitado)
-        intent.putExtra("qtTotal", total)
+        intent.putExtra(QUANTIDADE_TOTAL, total)
         startActivity(intent)
     }
 
@@ -165,9 +181,12 @@ class TelaCambio : BaseActivity() {
         desabilitaBotao(binding.btnComprar, R.drawable.retangulobotao)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun vinculaCamposMoeda(it: MoedaModel) {
-        binding.txtNomeMoedaCambio.text = "${it.isoMoeda} - ${it.nome}"
+        buildString {
+            this.append(it.isoMoeda, getString(R.string.espacoComTraco), it.nome)
+            binding.txtNomeMoedaCambio.text = this
+        }
+
         binding.txtVariacaoMoedaCambio.text =
             it.variacao?.let { variacao -> formataPorcentagem(variacao) }
         trocaCorVariacaoMoeda(binding.txtVariacaoMoedaCambio, it)
@@ -182,7 +201,7 @@ class TelaCambio : BaseActivity() {
             sbCompra.let {
                 it.append(
                     binding.txtCompraMoedaCambio.text,
-                    "\t",
+                    getString(R.string.espaco),
                     moeda?.valorCompra?.let { compra -> formatadorMoedaBrasileira(compra) })
                 binding.txtCompraMoedaCambio.text = it
             }
@@ -192,13 +211,14 @@ class TelaCambio : BaseActivity() {
             binding.txtVendaMoedaCambio.text =
                 sbVenda.append(
                     binding.txtVendaMoedaCambio.text,
-                    "\t${formatadorMoedaBrasileira(0.00)}"
+                    getString(R.string.espaco),
+                    formatadorMoedaBrasileira(0.00)
                 )
         } else {
             sbVenda.let {
                 it.append(
                     binding.txtVendaMoedaCambio.text,
-                    "\t",
+                    getString(R.string.espaco),
                     moeda?.valorVenda?.let { venda -> formatadorMoedaBrasileira(venda) })
                 binding.txtVendaMoedaCambio.text = it
             }

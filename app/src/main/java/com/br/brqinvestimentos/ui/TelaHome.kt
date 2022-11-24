@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.adapter.ListaMoedasAdapter
 import com.br.brqinvestimentos.databinding.ActivityTelaHomeBinding
 import com.br.brqinvestimentos.model.MoedaModel
@@ -41,7 +42,7 @@ class TelaHome : BaseActivity() {
             Toast.makeText(this@TelaHome, message, Toast.LENGTH_LONG).show()
         }
 
-        configuraToolbar(false, "Moedas", binding.toolbarHome.toolbarTitle, binding.toolbarHome.btnVoltarTelaMoedas)
+        configuraToolbar(false, getString(R.string.Moedas), binding.toolbarHome.toolbarTitle, binding.toolbarHome.btnVoltarTelaMoedas)
     }
 
 

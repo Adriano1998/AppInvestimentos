@@ -31,11 +31,6 @@ open class BaseActivity : AppCompatActivity() {
         )
     }
 
-//    protected fun iniciaToolbar(toolbar: Toolbar) {
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.setDisplayShowTitleEnabled(false)
-//    }
-
     protected open fun configuraToolbar(boolean: Boolean, titulo: String, txtTitulo: TextView, imgbtn: ImageButton) {
         setSupportActionBar(binding.toolbarGenerica)
         supportActionBar?.setDisplayShowTitleEnabled(false)

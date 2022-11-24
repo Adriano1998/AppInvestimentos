@@ -6,5 +6,6 @@ interface Constantes {
         const val MOEDA = "moeda"
         const val EHCOMPRA = "ehCompra"
         const val QUANTIDADE = "quantidade"
+        const val QUANTIDADE_TOTAL = "qtTotal"
     }
 }
