@@ -42,7 +42,7 @@ class TelaHome : BaseActivity() {
             Toast.makeText(this@TelaHome, message, Toast.LENGTH_LONG).show()
         }
 
-        configuraToolbar(false, getString(R.string.Moedas), binding.toolbarHome.toolbarTitle, binding.toolbarHome.btnVoltarTelaMoedas)
+        configuraToolbar(false, getString(R.string.Moedas), binding.toolbarHome.toolbarTitulo, binding.toolbarHome.btnVoltarTelaMoedas)
     }
 
 

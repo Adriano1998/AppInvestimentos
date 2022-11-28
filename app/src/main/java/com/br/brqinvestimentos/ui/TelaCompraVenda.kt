@@ -20,8 +20,8 @@ class TelaCompraVenda : BaseActivity() {
 
     private val sbTexto = StringBuilder()
 
-    var operacaoTexto = ""
-    var operacaoToolbar = ""
+    private var operacaoTexto = ""
+    private var operacaoToolbar = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +32,18 @@ class TelaCompraVenda : BaseActivity() {
         binding.btnVaiParaHome.setOnClickListener {
             vaiParaTelaHome()
         }
+
         val ehCompra = intent.getBooleanExtra(EHCOMPRA, false)
 
-        configuraSubTituloToolbar(true, getString(R.string.cambio), binding.toolbarcompravenda.toolbarSubTitle)
+        configuraSubTituloToolbar(true, getString(R.string.cambio), binding.toolbarcompravenda.toolbarSubTitulo)
 
         decideCompraOuVenda(ehCompra)
 
-        configuraTelaCompra()
+        configuraTela()
         configuraToolbar(
             true,
             operacaoToolbar,
-            binding.toolbarcompravenda.toolbarTitle,
+            binding.toolbarcompravenda.toolbarTitulo,
             binding.toolbarcompravenda.btnVoltarTelaMoedas
         )
 
@@ -59,7 +60,7 @@ class TelaCompraVenda : BaseActivity() {
         }
     }
 
-    private fun configuraTelaCompra() {
+    private fun configuraTela() {
         val quantidade = intent.getIntExtra(QUANTIDADE, 0)
         val calculoTotal = intent.getDoubleExtra(QUANTIDADE_TOTAL,0.0)
         sbTexto.let { sb ->

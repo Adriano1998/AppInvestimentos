@@ -38,7 +38,7 @@ class TelaCambio : BaseActivity() {
         configuraSubTituloToolbar(
             true,
             getString(R.string.Moedas),
-            binding.toolbarCambio.toolbarSubTitle
+            binding.toolbarCambio.toolbarSubTitulo
         )
     }
 
@@ -69,7 +69,7 @@ class TelaCambio : BaseActivity() {
         configuraToolbar(
             true,
             getString(R.string.cambio),
-            binding.toolbarCambio.toolbarTitle,
+            binding.toolbarCambio.toolbarTitulo,
             binding.toolbarCambio.btnVoltarTelaMoedas
         )
 

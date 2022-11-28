@@ -18,7 +18,7 @@
         android:src="@drawable/ic_baseline_arrow_back_ios_24" />
 
     <TextView
-        android:id="@+id/toolbar_subTitle"
+        android:id="@+id/toolbar_subTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
@@ -31,7 +31,7 @@
     </TextView>
 
     <TextView
-        android:id="@+id/toolbar_title"
+        android:id="@+id/toolbar_titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

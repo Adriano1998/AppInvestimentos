@@ -30,7 +30,6 @@ object FuncoesUtils {
                 configuraCor(txtVariacao, R.color.variation_green)
             }
         }
-
     }
 
     fun configuraCor(text: TextView, cor: Int) {
