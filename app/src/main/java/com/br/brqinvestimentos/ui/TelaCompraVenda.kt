@@ -2,119 +2,98 @@ package com.br.brqinvestimentos.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.databinding.ActivityTelaCompraVendaBinding
 import com.br.brqinvestimentos.model.MoedaModel
-import com.br.brqinvestimentos.repository.MoedaRepository
-import com.br.brqinvestimentos.utils.FuncoesUtils
+import com.br.brqinvestimentos.utils.Constantes.Companion.EHCOMPRA
+import com.br.brqinvestimentos.utils.Constantes.Companion.MOEDA
+import com.br.brqinvestimentos.utils.Constantes.Companion.QUANTIDADE
+import com.br.brqinvestimentos.utils.Constantes.Companion.QUANTIDADE_TOTAL
 import com.br.brqinvestimentos.utils.FuncoesUtils.formatadorMoedaBrasileira
-import com.br.brqinvestimentos.utils.FuncoesUtils.increaseTouch
-import com.br.brqinvestimentos.viewModel.MainViewModelFactory
-import com.br.brqinvestimentos.viewModel.MoedaViewModel
-import java.math.RoundingMode
 
-class TelaCompraVenda : AppCompatActivity() {
+class TelaCompraVenda : BaseActivity() {
 
     private val binding by lazy {
         ActivityTelaCompraVendaBinding.inflate(layoutInflater)
     }
     private var moeda: MoedaModel? = null
-    lateinit var viewModel: MoedaViewModel
+
     private val sbTexto = StringBuilder()
+
+    private var operacaoTexto = ""
+    private var operacaoToolbar = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        moeda = intent.getSerializableExtra("moeda") as? MoedaModel
-
-        viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
-            MoedaViewModel::class.java
-        )
-        binding.toolbarcompravenda.btnVoltarTelaCambio.setOnClickListener {
-            finish()
-
-        }
+        moeda = intent.getSerializableExtra(MOEDA) as? MoedaModel
 
         binding.btnVaiParaHome.setOnClickListener {
             vaiParaTelaHome()
         }
-        val quantidade = intent.getIntExtra("quantidade", 0)
 
-        if (!FuncoesUtils.ehCompra) {
-            configuraTelaVenda(quantidade)
+        val ehCompra = intent.getBooleanExtra(EHCOMPRA, false)
+
+        configuraSubTituloToolbar(true, getString(R.string.cambio), binding.toolbarcompravenda.toolbarSubTitulo)
+
+        decideCompraOuVenda(ehCompra)
+
+        configuraTela()
+        configuraToolbar(
+            true,
+            operacaoToolbar,
+            binding.toolbarcompravenda.toolbarTitulo,
+            binding.toolbarcompravenda.btnVoltarTelaMoedas
+        )
+
+    }
+
+    private fun decideCompraOuVenda(ehCompra: Boolean) {
+        if (!ehCompra) {
+            operacaoToolbar = getString(R.string.Vender)
+            operacaoTexto = getString(R.string.vender)
+
         } else {
-            configuraTelaCompra(quantidade)
-        }
-
-        increaseTouch(binding.toolbarcompravenda.btnVoltarTelaCambio, 150F)
-
-    }
-
-    private fun configuraTelaCompra(quantidade: Int) {
-        iniciaToolbarCompra()
-        val contaCompra = quantidade * moeda?.valorCompra!!
-        sbTexto.let {
-            it.append("Parabéns!\n")
-                .append("Você acabou de \n")
-                .append("comprar ")
-                .append(quantidade)
-                .append(" ", moeda?.isoMoeda, " ")
-                .append("-\n")
-                .append(moeda?.nome)
-                .append(", totalizando\n")
-                .append(formatadorMoedaBrasileira(contaCompra))
-               binding.textoCompraVenda.text = it
-
+            operacaoToolbar = getString(R.string.Comprar)
+            operacaoTexto = getString(R.string.comprar)
         }
     }
 
-    private fun configuraTelaVenda(quantidade: Int) {
-        iniciaToolbarVenda()
-        val contaVenda = quantidade * moeda?.valorVenda!!
-        sbTexto.let {
-            it.append("Parabéns!\n")
-                .append("Você acabou de vender\n")
-                .append(quantidade, " ")
-                .append(moeda?.isoMoeda, " ")
-                .append("-", " ")
-                .append(moeda?.nome)
-                .append(", \n")
-                .append("totalizando\n")
-                .append("R$ ")
-                .append(formatadorMoedaBrasileira(contaVenda))
-
-            binding.textoCompraVenda.text = it
+    private fun configuraTela() {
+        val quantidade = intent.getIntExtra(QUANTIDADE, 0)
+        val calculoTotal = intent.getDoubleExtra(QUANTIDADE_TOTAL,0.0)
+        sbTexto.let { sb ->
+            sb.append(
+                getString(R.string.parabens),
+                getString(R.string.pula_linha),
+                getString(R.string.espaco),
+                getString(R.string.voce_acabou_de),
+                operacaoTexto, getString(R.string.pula_linha),
+                quantidade,
+                getString(R.string.espaco),
+                moeda?.isoMoeda,
+                getString(R.string.espaco),
+                getString(R.string.traco),
+                getString(R.string.espaco),
+                moeda?.nome,
+                getString(R.string.virgula),
+                getString(R.string.pula_linha),
+                getString(R.string.totalizando),
+                getString(R.string.pula_linha),
+                formatadorMoedaBrasileira(calculoTotal)
+            )
+            binding.textoCompraVenda.text = sb
         }
+
     }
 
     private fun vaiParaTelaHome() {
-        val intent = Intent(applicationContext, TelaHome::class.java)
-        viewModel.simulaValorParaSingleton(moeda!!)
-        intent.putExtra("moeda", moeda)
+        val intent = Intent(this@TelaCompraVenda, TelaHome::class.java)
+        moeda?.let {
+            viewModel.pegaValorHashmap(it.isoMoeda)
+        }
+        intent.putExtra(MOEDA, moeda)
         startActivity(intent)
-    }
-
-    private fun iniciaToolbarVenda() {
-        setSupportActionBar(binding.toolbarcompravenda.toolbarCompraVenda)
-        supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
-            binding.toolbarcompravenda.toolbarcompraevendaTitle.text = "Vender"
-            binding.toolbarcompravenda.toolbarcompraevendaTitle.let { text ->
-                text.contentDescription = "Vender, Titulo"
-            }
-        }
-    }
-
-    private fun iniciaToolbarCompra() {
-        setSupportActionBar(binding.toolbarcompravenda.toolbarCompraVenda)
-        supportActionBar?.let {
-            it.setDisplayShowTitleEnabled(false)
-            binding.toolbarcompravenda.toolbarcompraevendaTitle.text = "Comprar"
-            binding.toolbarcompravenda.toolbarcompraevendaTitle.let { text ->
-                text.contentDescription = "Comprar, Titulo"
-            }
-        }
     }
 }

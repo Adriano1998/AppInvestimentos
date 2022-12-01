@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.br.brqinvestimentos.repository.MoedaRepository
 
+@Suppress("UNCHECKED_CAST")
 class MainViewModelFactory constructor(private val repository: MoedaRepository) :
     ViewModelProvider.Factory {
 

@@ -1,5 +1,6 @@
 package com.br.brqinvestimentos.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,9 @@ class ListaMoedasAdapter(
 
             this.moeda = moeda
             binding.txtNomeMoeda.text = moeda.isoMoeda
-            binding.txtVariacaoMoeda.text = formataPorcentagem(moeda.variacao!!)
+            moeda.variacao?.let {
+                binding.txtVariacaoMoeda.text = formataPorcentagem(it)
+            }
             FuncoesUtils.trocaCorVariacaoMoeda(binding.txtVariacaoMoeda, moeda)
         }
 
@@ -56,13 +59,15 @@ class ListaMoedasAdapter(
 
         moedas[position]?.let {
             holder.vincula(it)
-            holder.itemView.contentDescription = "Moeda ${position+1}: ${it.isoMoeda}, Variação : ${it.variacao}"
+            holder.itemView.contentDescription =
+                "Moeda ${position + 1}: ${it.isoMoeda}, Variação : ${it.variacao}"
         }
 
     }
 
     override fun getItemCount(): Int = moedas.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun atualiza(moedas: List<MoedaModel?>) {
         this.moedas.clear()
         this.moedas.addAll(moedas)

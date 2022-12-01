@@ -10,4 +10,7 @@
     <color name="app">#000000</color>
     <color name = "button">#3C8DBC</color>
     <color name = "variation_red">#D0021B</color>
+    <color name = "variation_white">#FFFFFF</color>
+    <color name = "variation_green">#7ED321</color>
+
 </resources>

@@ -10,16 +10,18 @@
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/stylebutton.xml" value="0.158" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/drawable/txtvwestilo.xml" value="0.165" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout-v28/toolbar.xml" value="0.1" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_base.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_tela_cambio.xml" value="0.22" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_tela_compra_venda.xml" value="0.1" />
-        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_tela_home.xml" value="0.1814814814814815" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/activity_tela_home.xml" value="0.25" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/item_moedas.xml" value="0.21" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/textviewestilo.xml" value="0.1716485507246377" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbar.xml" value="0.1" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbar_cambio.xml" value="0.5" />
-        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbar_home.xml" value="0.1" />
-        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbarcompraevenda.xml" value="0.1" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbar_generica.xml" value="0.1675929884566054" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbar_home.xml" value="0.12" />
+        <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbarcompraevenda.xml" value="0.33" />
         <entry key="..\:/Users/adrianoanunciacao/AndroidStudioProjects/BRQInvestimentos/app/src/main/res/layout/toolbarcompraevendacomprar.xml" value="0.1675929884566054" />
       </map>
     </option>

@@ -8,9 +8,8 @@
     tools:context=".ui.TelaCambio">
 
     <include
-        android:id="@+id/toolbarcambio"
-        layout="@layout/toolbar_cambio">
-
+        android:id="@+id/toolbarCambio"
+        layout="@layout/toolbar_generica">
     </include>
 
 
@@ -89,8 +88,6 @@
             app:layout_constraintTop_toBottomOf="@id/txtCompraMoedaCambio"
 
             />
-
-
 
 
     </LinearLayout>

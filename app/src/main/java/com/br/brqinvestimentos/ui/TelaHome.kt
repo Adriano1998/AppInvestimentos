@@ -6,18 +6,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.br.brqinvestimentos.R
 import com.br.brqinvestimentos.adapter.ListaMoedasAdapter
 import com.br.brqinvestimentos.databinding.ActivityTelaHomeBinding
 import com.br.brqinvestimentos.model.MoedaModel
 import com.br.brqinvestimentos.repository.MoedaRepository
+import com.br.brqinvestimentos.utils.Constantes.Companion.MOEDA
 import com.br.brqinvestimentos.viewModel.MainViewModelFactory
 import com.br.brqinvestimentos.viewModel.MoedaViewModel
 
-class TelaHome : AppCompatActivity() {
+class TelaHome : BaseActivity() {
 
     private var moeda: MoedaModel? = null
-
-    lateinit var viewModel: MoedaViewModel
 
     private val binding by lazy {
         ActivityTelaHomeBinding.inflate(layoutInflater)
@@ -31,12 +31,7 @@ class TelaHome : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configuraRecyclerView()
-        moeda = intent.getSerializableExtra("moeda") as? MoedaModel
-
-
-        viewModel = ViewModelProvider(this, MainViewModelFactory(MoedaRepository())).get(
-            MoedaViewModel::class.java
-        )
+        moeda = intent.getSerializableExtra(MOEDA) as? MoedaModel
 
         viewModel.listaDeMoedas.observe(this) {
             adapter.atualiza(it)
@@ -45,13 +40,11 @@ class TelaHome : AppCompatActivity() {
 
         viewModel.toastMessageObserver.observe(this) { message ->
             Toast.makeText(this@TelaHome, message, Toast.LENGTH_LONG).show()
-
         }
 
-        binding.toolbarHome.toolbarTitulo.let {
-            it.contentDescription = "${it.text}, Titulo"
-        }
+        configuraToolbar(false, getString(R.string.Moedas), binding.toolbarHome.toolbarTitulo, binding.toolbarHome.btnVoltarTelaMoedas)
     }
+
 
     private fun configuraRecyclerView() {
         binding.rvMoedasTelaHome.adapter = adapter
@@ -63,10 +56,8 @@ class TelaHome : AppCompatActivity() {
 
     private fun vaiParaTelaCambio(moeda: MoedaModel) {
         Intent(this, TelaCambio::class.java).apply {
-            putExtra("moeda", moeda)
+            putExtra(MOEDA, moeda)
             startActivity(this)
         }
     }
-
-
 }
